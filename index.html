@@ -17,13 +17,7 @@
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loader-content">
-            <div class="radar-spinner">
-                <div class="radar-ring"></div>
-                <div class="radar-ring"></div>
-                <div class="radar-ring"></div>
-                <div class="radar-dot"></div>
-            </div>
-            <h1 class="loader-title">P.I.N.T.A.R.</h1>
+            <img src="PINTAR LOGO.png" alt="P.I.N.T.A.R. Logo" class="loader-logo-img">
             <p class="loader-subtitle">Initializing GeoAI Engine…</p>
             <div class="loader-bar"><div class="loader-fill" id="loader-fill"></div></div>
             <p class="loader-status" id="loader-status">Loading terrain data…</p>
@@ -34,23 +28,26 @@
     <aside id="sidebar">
         <div class="sidebar-header">
             <div class="logo-group">
-                <div class="logo-icon">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                        <circle cx="14" cy="14" r="12" stroke="url(#lg1)" stroke-width="2"/>
-                        <circle cx="14" cy="14" r="7" stroke="url(#lg1)" stroke-width="1.5" stroke-dasharray="3 3"/>
-                        <circle cx="14" cy="14" r="3" fill="url(#lg1)"/>
-                        <line x1="14" y1="2" x2="14" y2="8" stroke="url(#lg1)" stroke-width="1.5"/>
-                        <line x1="14" y1="20" x2="14" y2="26" stroke="url(#lg1)" stroke-width="1.5"/>
-                        <line x1="2" y1="14" x2="8" y2="14" stroke="url(#lg1)" stroke-width="1.5"/>
-                        <line x1="20" y1="14" x2="26" y2="14" stroke="url(#lg1)" stroke-width="1.5"/>
-                        <defs><linearGradient id="lg1" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#00E5FF"/><stop offset="1" stop-color="#7C4DFF"/></linearGradient></defs>
-                    </svg>
-                </div>
+                <img src="PINTAR LOGO.png" alt="P.I.N.T.A.R. Logo" class="sidebar-logo-img">
                 <div>
-                    <h1 class="logo-text">P.I.N.T.A.R.</h1>
-                    <span class="logo-sub">Kuala Selangor Regional GeoAI</span>
+                    <span class="logo-sub" id="logo-sub-region">Kuala Selangor GeoAI</span>
                 </div>
             </div>
+            <button class="theme-toggle" id="btn-theme" title="Toggle Dark Mode">
+                <span class="icon-sun">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+        </div>
+
+        <div class="region-selector-bar">
+            <div class="region-label-group">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 00-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 00-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>Region</span>
+            </div>
+            <select id="region-select" class="region-select-dropdown" title="Select GeoAI Region">
+                <option value="kuala_selangor">Kuala Selangor, Selangor</option>
+                <option value="kuala_krai">Kuala Krai, Kelantan</option>
+            </select>
         </div>
 
         <nav class="sidebar-nav">
@@ -74,7 +71,7 @@
 
         <!-- Dashboard Panel -->
         <div class="panel active" id="panel-dashboard">
-            <h2 class="panel-title">Regional Overview (Kuala Selangor)</h2>
+            <h2 class="panel-title" id="overview-title">Regional Overview (Kuala Selangor)</h2>
             <div class="stats-grid">
                 <div class="stat-card" id="stat-population">
                     <div class="stat-icon pop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
@@ -118,7 +115,7 @@
                 <label class="layer-toggle">
                     <input type="checkbox" id="lyr-population" checked>
                     <span class="toggle-slider"></span>
-                    <span class="layer-name">👥 WorldPop Population Choropleth Map</span>
+                    <span class="layer-name">👥 Population</span>
                 </label>
                 <label class="layer-toggle">
                     <input type="checkbox" id="lyr-telco" checked>
@@ -128,12 +125,12 @@
                 <label class="layer-toggle">
                     <input type="checkbox" id="lyr-candidates" checked>
                     <span class="toggle-slider"></span>
-                    <span class="layer-name">🎯 Optimal Candidate Sites</span>
+                    <span class="layer-name">🎯 Optimal Candidate Tower Installation</span>
                 </label>
                 <label class="layer-toggle">
                     <input type="checkbox" id="lyr-flood" checked>
                     <span class="toggle-slider"></span>
-                    <span class="layer-name">🌊 Sentinel-1 Flood Polygon Layer</span>
+                    <span class="layer-name">🌊 Flood Footprints</span>
                 </label>
                 <label class="layer-toggle">
                     <input type="checkbox" id="lyr-buildings" checked>
@@ -261,6 +258,6 @@
     <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="app.js?v=14"></script>
+    <script src="app.js?v=25"></script>
 </body>
 </html>

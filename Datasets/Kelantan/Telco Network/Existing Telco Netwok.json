@@ -1,0 +1,1058 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-08-12T09:08:06Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 1869579109,
+      "lat": 6.1095082,
+      "lon": 102.2433544,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2425808221,
+      "lat": 5.8202187,
+      "lon": 101.8887794,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3813367954,
+      "lat": 6.0856106,
+      "lon": 102.2362701,
+      "tags": {
+        "man_made": "tower",
+        "name": "Menara Komunikasi RTM Wakaf Che Yeh",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3989115263,
+      "lat": 5.9014083,
+      "lon": 102.7414127,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4027233384,
+      "lat": 5.9004827,
+      "lon": 102.7302575,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6142258135,
+      "lat": 5.7434028,
+      "lon": 101.8628592,
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6251035648,
+      "lat": 6.0035848,
+      "lon": 102.2898482,
+      "tags": {
+        "communication:mobile_phone": "yes",
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6888256155,
+      "lat": 5.9459053,
+      "lon": 101.7730559,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6888551804,
+      "lat": 5.93883,
+      "lon": 101.771206,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7276003717,
+      "lat": 5.9375354,
+      "lon": 101.7689631,
+      "tags": {
+        "communication:mobile_phone": "yes",
+        "man_made": "mast",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7848117182,
+      "lat": 5.4450595,
+      "lon": 101.9086553,
+      "tags": {
+        "man_made": "tower",
+        "source": "bing aerial tracing",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8015247585,
+      "lat": 6.0241058,
+      "lon": 102.4043834,
+      "tags": {
+        "man_made": "mast",
+        "name": "Menara Pencawang",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8778604184,
+      "lat": 5.8020298,
+      "lon": 102.1539366,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8813291617,
+      "lat": 6.1227382,
+      "lon": 102.3208142,
+      "tags": {
+        "man_made": "mast",
+        "name": "Pencawang",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8899964134,
+      "lat": 5.6291081,
+      "lon": 102.6508373,
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8899990561,
+      "lat": 5.6308084,
+      "lon": 102.6506951,
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8920295576,
+      "lat": 5.9637529,
+      "lon": 102.2928603,
+      "tags": {
+        "man_made": "tower",
+        "source": "https://kartaview.org/details/3723937/959/track-info",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8930207046,
+      "lat": 5.6272561,
+      "lon": 102.7902374,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8955815813,
+      "lat": 5.8629103,
+      "lon": 102.4913317,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8962634816,
+      "lat": 6.0225351,
+      "lon": 102.2946448,
+      "tags": {
+        "access": "private",
+        "addr:postcode": "16400",
+        "aeroway:light": "obstacle",
+        "communication:television": "yes",
+        "ele": "129.24",
+        "man_made": "tower",
+        "material": "steel",
+        "name": "Stesen Pemancar TV3",
+        "source": "https://openstreetcam.org/details/3752841/222",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8971151860,
+      "lat": 6.0930421,
+      "lon": 102.3796462,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8988150886,
+      "lat": 5.8015601,
+      "lon": 102.4826807,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8988150887,
+      "lat": 5.8020765,
+      "lon": 102.4831915,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8988150888,
+      "lat": 5.8025765,
+      "lon": 102.4837146,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8988150889,
+      "lat": 5.8030703,
+      "lon": 102.4842357,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8988150890,
+      "lat": 5.8035806,
+      "lon": 102.4847527,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8988150891,
+      "lat": 5.8041379,
+      "lon": 102.4863695,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8988150892,
+      "lat": 5.8046625,
+      "lon": 102.485869,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9038308802,
+      "lat": 6.1185464,
+      "lon": 102.2941384,
+      "tags": {
+        "access": "private",
+        "aeroway:light": "obstacle",
+        "height": "65.84",
+        "man_made": "tower",
+        "material": "steel",
+        "source": "CAAM eAIP 20210812",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9038308803,
+      "lat": 6.0132321,
+      "lon": 102.3738037,
+      "tags": {
+        "access": "private",
+        "aeroway:light": "obstacle",
+        "height": "65.84",
+        "man_made": "tower",
+        "material": "steel",
+        "source": "CAAM eAIP 20210812",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9038308804,
+      "lat": 6.1035156,
+      "lon": 102.2723576,
+      "tags": {
+        "access": "private",
+        "aeroway:light": "obstacle",
+        "height": "60.96",
+        "man_made": "tower",
+        "material": "steel",
+        "source": "CAAM eAIP 20210812",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9324749766,
+      "lat": 6.113531,
+      "lon": 102.2291325,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11148230157,
+      "lat": 5.7596883,
+      "lon": 102.4882203,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13186063976,
+      "lat": 5.0881398,
+      "lon": 102.8013783,
+      "tags": {
+        "man_made": "mast",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13251167214,
+      "lat": 5.927353,
+      "lon": 102.7195205,
+      "tags": {
+        "description": "Big mast with weather sensors?",
+        "man_made": "mast",
+        "tower:type": "monitoring"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13459535295,
+      "lat": 5.7758643,
+      "lon": 102.2201461,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13507319534,
+      "lat": 5.5593972,
+      "lon": 102.7715917,
+      "tags": {
+        "man_made": "mast"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13659918586,
+      "lat": 6.0422775,
+      "lon": 102.2609997,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13663195380,
+      "lat": 6.0381578,
+      "lon": 102.1388049,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13663195381,
+      "lat": 6.0384245,
+      "lon": 102.1382296,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13663195382,
+      "lat": 6.0375723,
+      "lon": 102.1385213,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13663195383,
+      "lat": 6.0378544,
+      "lon": 102.1379419,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13672724268,
+      "lat": 6.06627,
+      "lon": 102.3285867,
+      "tags": {
+        "man_made": "mast",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13678930905,
+      "lat": 6.0832097,
+      "lon": 102.1892104,
+      "tags": {
+        "man_made": "mast",
+        "material": "steel",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13678931196,
+      "lat": 6.0760992,
+      "lon": 102.1599555,
+      "tags": {
+        "man_made": "mast",
+        "material": "steel",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13679676092,
+      "lat": 6.0782416,
+      "lon": 102.2463287,
+      "tags": {
+        "man_made": "mast",
+        "material": "steel",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13682149677,
+      "lat": 6.0858215,
+      "lon": 102.3027711,
+      "tags": {
+        "man_made": "tower",
+        "material": "steel",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13682521098,
+      "lat": 6.0679857,
+      "lon": 102.2865142,
+      "tags": {
+        "man_made": "mast",
+        "material": "steel",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13682521114,
+      "lat": 6.0739788,
+      "lon": 102.2981375,
+      "tags": {
+        "man_made": "mast",
+        "material": "steel",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13684596777,
+      "lat": 6.1116097,
+      "lon": 102.3403971,
+      "tags": {
+        "man_made": "mast",
+        "material": "steel",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13685405063,
+      "lat": 6.0940688,
+      "lon": 102.208124,
+      "tags": {
+        "man_made": "mast",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13686353602,
+      "lat": 6.1108076,
+      "lon": 102.158998,
+      "tags": {
+        "man_made": "tower",
+        "material": "steel",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13686353632,
+      "lat": 6.1023619,
+      "lon": 102.1918738,
+      "tags": {
+        "man_made": "mast",
+        "material": "steel",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13686660305,
+      "lat": 6.0985934,
+      "lon": 102.1070825,
+      "tags": {
+        "man_made": "tower",
+        "material": "steel",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 823097930,
+      "nodes": [
+        7684743145,
+        7684743146,
+        7684743147,
+        7684743148,
+        7684743145
+      ],
+      "tags": {
+        "building": "yes",
+        "communication:mobile_phone": "yes",
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 823099395,
+      "nodes": [
+        7684753068,
+        7684753069,
+        7684753070,
+        7684753071,
+        7684753068
+      ],
+      "tags": {
+        "building": "yes",
+        "communication:mobile_phone": "yes",
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1258179518,
+      "nodes": [
+        3287632472,
+        11697001390,
+        11697001389,
+        11697001388,
+        3287632472
+      ],
+      "tags": {
+        "building": "yes",
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1259473617,
+      "nodes": [
+        11708979329,
+        11708979328,
+        11708979327,
+        11708979326,
+        11708979329
+      ],
+      "tags": {
+        "building": "yes",
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1259673925,
+      "nodes": [
+        11711076278,
+        11711076275,
+        11711076276,
+        11711076277,
+        11711076278
+      ],
+      "tags": {
+        "building": "yes",
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1262090419,
+      "nodes": [
+        6847617131,
+        11726725493,
+        11726725492,
+        11726725491,
+        6847617131
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1318195110,
+      "nodes": [
+        12199966489,
+        12199966486,
+        12199966487,
+        12199966488,
+        12199966489
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1318445322,
+      "nodes": [
+        8808229042,
+        12202018424,
+        12202018423,
+        12202018422,
+        8808229042
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1318445327,
+      "nodes": [
+        8808229027,
+        12202018443,
+        12202018442,
+        12202018441,
+        8808229027
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1318445328,
+      "nodes": [
+        8808229041,
+        12202018446,
+        12202018445,
+        12202018444,
+        8808229041
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1318445329,
+      "nodes": [
+        8808229040,
+        12202018449,
+        12202018448,
+        12202018447,
+        8808229040
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11711076275,
+      "lat": 5.0274045,
+      "lon": 101.7539022
+    },
+    {
+      "type": "node",
+      "id": 11711076276,
+      "lat": 5.027319,
+      "lon": 101.7538982
+    },
+    {
+      "type": "node",
+      "id": 11711076277,
+      "lat": 5.0273242,
+      "lon": 101.7537859
+    },
+    {
+      "type": "node",
+      "id": 11711076278,
+      "lat": 5.0274097,
+      "lon": 101.7537899
+    },
+    {
+      "type": "node",
+      "id": 11708979326,
+      "lat": 5.1006797,
+      "lon": 101.6468183
+    },
+    {
+      "type": "node",
+      "id": 11708979327,
+      "lat": 5.1007227,
+      "lon": 101.6468885
+    },
+    {
+      "type": "node",
+      "id": 11708979328,
+      "lat": 5.10081,
+      "lon": 101.6468346
+    },
+    {
+      "type": "node",
+      "id": 11708979329,
+      "lat": 5.100767,
+      "lon": 101.6467644
+    },
+    {
+      "type": "node",
+      "id": 3287632472,
+      "lat": 5.6052889,
+      "lon": 101.5432763
+    },
+    {
+      "type": "node",
+      "id": 11697001388,
+      "lat": 5.6052851,
+      "lon": 101.5431232
+    },
+    {
+      "type": "node",
+      "id": 11697001389,
+      "lat": 5.6051757,
+      "lon": 101.5431259
+    },
+    {
+      "type": "node",
+      "id": 11697001390,
+      "lat": 5.6051794,
+      "lon": 101.543279
+    },
+    {
+      "type": "node",
+      "id": 8808229027,
+      "lat": 5.7059568,
+      "lon": 102.2789168
+    },
+    {
+      "type": "node",
+      "id": 12202018441,
+      "lat": 5.7058866,
+      "lon": 102.2788783
+    },
+    {
+      "type": "node",
+      "id": 12202018442,
+      "lat": 5.7059249,
+      "lon": 102.2788077
+    },
+    {
+      "type": "node",
+      "id": 12202018443,
+      "lat": 5.7059951,
+      "lon": 102.2788462
+    },
+    {
+      "type": "node",
+      "id": 8808229040,
+      "lat": 5.7061656,
+      "lon": 102.2821261
+    },
+    {
+      "type": "node",
+      "id": 8808229041,
+      "lat": 5.7058605,
+      "lon": 102.2828644
+    },
+    {
+      "type": "node",
+      "id": 8808229042,
+      "lat": 5.7061188,
+      "lon": 102.2825784
+    },
+    {
+      "type": "node",
+      "id": 12202018422,
+      "lat": 5.7060035,
+      "lon": 102.2825818
+    },
+    {
+      "type": "node",
+      "id": 12202018423,
+      "lat": 5.706,
+      "lon": 102.2824659
+    },
+    {
+      "type": "node",
+      "id": 12202018424,
+      "lat": 5.7061154,
+      "lon": 102.2824624
+    },
+    {
+      "type": "node",
+      "id": 12202018444,
+      "lat": 5.7058617,
+      "lon": 102.2827818
+    },
+    {
+      "type": "node",
+      "id": 12202018445,
+      "lat": 5.7057795,
+      "lon": 102.2827806
+    },
+    {
+      "type": "node",
+      "id": 12202018446,
+      "lat": 5.7057783,
+      "lon": 102.2828632
+    },
+    {
+      "type": "node",
+      "id": 12202018447,
+      "lat": 5.7061605,
+      "lon": 102.2820782
+    },
+    {
+      "type": "node",
+      "id": 12202018448,
+      "lat": 5.7062082,
+      "lon": 102.2820732
+    },
+    {
+      "type": "node",
+      "id": 12202018449,
+      "lat": 5.7062132,
+      "lon": 102.2821211
+    },
+    {
+      "type": "node",
+      "id": 7684743145,
+      "lat": 5.8933236,
+      "lon": 102.1756336
+    },
+    {
+      "type": "node",
+      "id": 7684743146,
+      "lat": 5.8932663,
+      "lon": 102.17558
+    },
+    {
+      "type": "node",
+      "id": 7684743147,
+      "lat": 5.8933206,
+      "lon": 102.1755214
+    },
+    {
+      "type": "node",
+      "id": 7684743148,
+      "lat": 5.8933779,
+      "lon": 102.175575
+    },
+    {
+      "type": "node",
+      "id": 7684753068,
+      "lat": 5.8928409,
+      "lon": 102.1754594
+    },
+    {
+      "type": "node",
+      "id": 7684753069,
+      "lat": 5.8927716,
+      "lon": 102.1754225
+    },
+    {
+      "type": "node",
+      "id": 7684753070,
+      "lat": 5.8927349,
+      "lon": 102.1754924
+    },
+    {
+      "type": "node",
+      "id": 7684753071,
+      "lat": 5.8928042,
+      "lon": 102.1755292
+    },
+    {
+      "type": "node",
+      "id": 12199966486,
+      "lat": 5.5853265,
+      "lon": 102.4523069
+    },
+    {
+      "type": "node",
+      "id": 12199966487,
+      "lat": 5.5852695,
+      "lon": 102.4523859
+    },
+    {
+      "type": "node",
+      "id": 12199966488,
+      "lat": 5.585191,
+      "lon": 102.4523287
+    },
+    {
+      "type": "node",
+      "id": 12199966489,
+      "lat": 5.5852479,
+      "lon": 102.4522497
+    },
+    {
+      "type": "node",
+      "id": 6847617131,
+      "lat": 5.9241107,
+      "lon": 102.7197088
+    },
+    {
+      "type": "node",
+      "id": 11726725491,
+      "lat": 5.9241513,
+      "lon": 102.7196737
+    },
+    {
+      "type": "node",
+      "id": 11726725492,
+      "lat": 5.9241164,
+      "lon": 102.7196329
+    },
+    {
+      "type": "node",
+      "id": 11726725493,
+      "lat": 5.9240758,
+      "lon": 102.719668
+    }
+  ]
+}

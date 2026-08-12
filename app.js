@@ -1,14 +1,66 @@
 // ============================================================
-// P.I.N.T.A.R. — Kuala Selangor Regional GeoAI Telco Platform
+// P.I.N.T.A.R. — Multi-Regional GeoAI Telco Allocation Platform
 // Team Bolehla | ASEAN GeoAI Fusion 2026
-// Multi-Objective Regional Tower Allocation & Risk Optimization
+// Multi-Objective Tower Allocation & Risk Optimization
+// Districts Supported: Kuala Selangor (Selangor) & Kuala Krai (Kelantan)
 // ============================================================
 
 (function () {
     'use strict';
 
+    // ---- Restore saved theme preference ----
+    const savedTheme = localStorage.getItem('pintar-theme');
+    if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // ---- Regional Configurations ----
+    const REGIONS = {
+        'kuala_selangor': {
+            id: 'kuala_selangor',
+            name: 'Kuala Selangor, Selangor',
+            shortName: 'Kuala Selangor',
+            subText: 'Kuala Selangor GeoAI',
+            overviewTitle: 'Regional Overview (Kuala Selangor)',
+            center: [3.35, 101.25],
+            zoom: 11,
+            latMin: 3.20, latMax: 3.65, lngMin: 101.08, lngMax: 101.55,
+            defaultPop: 95359,
+            defaultBldg: 31200,
+            files: {
+                population: 'Datasets/Kuala Selangor/WorldPop Population/WorldPop_Malaysia_Population_CSV.csv',
+                flood: 'Datasets/Kuala Selangor/Flood Footprints/Sentinel1_Flood_Footprints_CSV.csv',
+                dem: 'Datasets/Kuala Selangor/DEM/SRTM_DEM_Slope_Points_CSV.csv',
+                telco: 'Datasets/Kuala Selangor/Existing Telco Tower/Telco Network.json',
+                infra: 'Datasets/Kuala Selangor/OSM/Critical Infrastucture.json',
+                buildings: 'Datasets/Kuala Selangor/OSM/Buildings_With_Geom.json',
+                roads: 'Datasets/Kuala Selangor/OSM/Roads_With_Geom.json'
+            }
+        },
+        'kuala_krai': {
+            id: 'kuala_krai',
+            name: 'Kuala Krai, Kelantan',
+            shortName: 'Kuala Krai (Kelantan)',
+            subText: 'Kuala Krai GeoAI',
+            overviewTitle: 'Regional Overview (Kuala Krai, Kelantan)',
+            center: [5.53, 102.20],
+            zoom: 11,
+            latMin: 5.00, latMax: 6.10, lngMin: 101.70, lngMax: 102.70,
+            defaultPop: 109400,
+            defaultBldg: 42500,
+            files: {
+                population: 'Datasets/Kelantan/WorldPop/WorldPop_Kelantan_Population_CSV.csv',
+                flood: 'Datasets/Kelantan/Flood Footprints/Sentinel1_Flood_Footprints_Kelantan_CSV.csv',
+                dem: 'Datasets/Kelantan/DEM/SRTM_DEM_Slope_Points_Kelantan_CSV.csv',
+                telco: 'Datasets/Kelantan/Telco Network/Existing Telco Netwok.json',
+                infra: 'Datasets/Kelantan/OSM/Critical Infrastructure.json',
+                buildings: 'Datasets/Kelantan/OSM/Building.json',
+                roads: 'Datasets/Kelantan/OSM/Road Network.json'
+            }
+        }
+    };
+
     // ---- Application State ----
     const STATE = {
+        activeRegion: 'kuala_selangor',
         demData: [],
         floodData: [],
         populationData: [],
@@ -23,26 +75,15 @@
         layers: {},
         baseMaps: {},
         heatLayer: null,
-        heatVisible: false
+        heatVisible: false,
+        elevChartInstance: null,
+        riskChartInstance: null
     };
-
-    // ---- Regional Viewport Focus (Kuala Selangor District) ----
-    const CENTER = [3.35, 101.25];
-    const ZOOM = 11;
 
     // ---- DOM Helpers ----
     const $ = id => document.getElementById(id);
 
     function lerp(a, b, t) { return a + (b - a) * t; }
-
-    function elevColor(e) {
-        const t = Math.min(Math.max(e, 0) / 350, 1);
-        if (t < 0.2) return `hsl(${lerp(190, 160, t * 5)}, 90%, ${lerp(40, 50, t * 5)}%)`;
-        if (t < 0.4) return `hsl(${lerp(160, 120, (t - 0.2) * 5)}, 85%, ${lerp(45, 55, (t - 0.2) * 5)}%)`;
-        if (t < 0.6) return `hsl(${lerp(120, 60, (t - 0.4) * 5)}, 80%, ${lerp(45, 55, (t - 0.4) * 5)}%)`;
-        if (t < 0.8) return `hsl(${lerp(60, 30, (t - 0.6) * 5)}, 90%, ${lerp(50, 55, (t - 0.6) * 5)}%)`;
-        return `hsl(${lerp(30, 0, (t - 0.8) * 5)}, 90%, ${lerp(50, 45, (t - 0.8) * 5)}%)`;
-    }
 
     function dist(a, b) {
         const dx = a[0] - b[0], dy = a[1] - b[1];
@@ -127,23 +168,39 @@
     }
 
     // ---- Data Loading Pipeline ----
-    async function loadData() {
-        setLoader(10, 'Ingesting WorldPop regional population grid (Kuala Selangor)…');
+    async function loadData(regionId) {
+        const regId = regionId || STATE.activeRegion || 'kuala_selangor';
+        const reg = REGIONS[regId] || REGIONS['kuala_selangor'];
+        STATE.activeRegion = reg.id;
+
+        // Clear existing state arrays
+        STATE.demData = [];
+        STATE.floodData = [];
+        STATE.populationData = [];
+        STATE.totalPopulation = 0;
+        STATE.telcoData = [];
+        STATE.buildingCount = 0;
+        STATE.buildingGeoms = [];
+        STATE.roadGeoms = [];
+        STATE.infraData = [];
+        STATE.candidateSites = [];
+
+        setLoader(10, `Ingesting WorldPop regional population grid (${reg.shortName})…`);
         try {
-            const popResp = await fetch('Datasets/WorldPop Population/WorldPop_Malaysia_Population_CSV.csv');
+            const popResp = await fetch(reg.files.population);
             const popText = await popResp.text();
             const { pts, totalPop } = parseWorldPop(popText);
             STATE.populationData = pts;
-            STATE.totalPopulation = totalPop || 95359;
+            STATE.totalPopulation = totalPop || reg.defaultPop;
             setLoader(30, `Parsed ${STATE.populationData.length.toLocaleString()} population cells (${STATE.totalPopulation.toLocaleString()} residents)…`);
         } catch (e) {
             console.warn('WorldPop CSV load error:', e);
-            STATE.totalPopulation = 95359;
+            STATE.totalPopulation = reg.defaultPop;
         }
 
-        setLoader(35, 'Ingesting Sentinel-1 SAR flood risk footprint dataset…');
+        setLoader(35, `Ingesting Sentinel-1 SAR flood risk footprints (${reg.shortName})…`);
         try {
-            const floodResp = await fetch('Datasets/Flood Footprints/Sentinel1_Flood_Footprints_CSV.csv');
+            const floodResp = await fetch(reg.files.flood);
             const floodText = await floodResp.text();
             STATE.floodData = parseFloodCSV(floodText);
             setLoader(50, `Indexed ${STATE.floodData.length.toLocaleString()} Sentinel-1 flood footprint points…`);
@@ -151,19 +208,19 @@
             console.warn('Flood CSV load error:', e);
         }
 
-        setLoader(55, 'Ingesting SRTM DEM terrain elevation & slope points…');
+        setLoader(55, `Ingesting SRTM DEM terrain elevation dataset (${reg.shortName})…`);
         try {
-            const demResp = await fetch('Datasets/DEM/SRTM_DEM_Slope_Points_CSV.csv');
+            const demResp = await fetch(reg.files.dem);
             const demText = await demResp.text();
             STATE.demData = parseDEMCSV(demText);
-            setLoader(70, `Parsed ${STATE.demData.length.toLocaleString()} elevation/slope grid points…`);
+            setLoader(70, `Parsed ${STATE.demData.length.toLocaleString()} elevation grid points…`);
         } catch (e) {
             console.warn('DEM CSV load error:', e);
         }
 
         setLoader(75, 'Ingesting existing telecommunication towers database…');
         try {
-            const telcoResp = await fetch('Datasets/Existing Telco Tower/Telco Network.json');
+            const telcoResp = await fetch(reg.files.telco);
             const telcoJson = await telcoResp.json();
             STATE.telcoData = (telcoJson.elements || []).map(e => {
                 let lat = e.lat, lon = e.lon;
@@ -181,7 +238,7 @@
 
         setLoader(85, 'Loading critical infrastructure & public facilities…');
         try {
-            const infraResp = await fetch('Datasets/OSM/Critical Infrastucture.json');
+            const infraResp = await fetch(reg.files.infra);
             const infraJson = await infraResp.json();
             STATE.infraData = (infraJson.elements || []).filter(e => e.tags && e.tags.name);
         } catch (e) {
@@ -191,32 +248,115 @@
 
         setLoader(92, 'Loading building & road network vector data…');
         try {
-            const bldgResp = await fetch('Datasets/OSM/Buildings_With_Geom.json');
+            const bldgResp = await fetch(reg.files.buildings);
             const bldgJson = await bldgResp.json();
             STATE.buildingGeoms = bldgJson.elements || [];
             STATE.buildingCount = STATE.buildingGeoms.length;
         } catch (e) {
-            STATE.buildingCount = 31200;
+            STATE.buildingCount = reg.defaultBldg;
         }
 
         try {
-            const roadResp = await fetch('Datasets/OSM/Roads_With_Geom.json');
-            const roadJson = await roadResp.json();
-            STATE.roadGeoms = roadJson.elements || [];
+            if (reg.files.roads) {
+                const roadResp = await fetch(reg.files.roads);
+                const roadJson = await roadResp.json();
+                STATE.roadGeoms = roadJson.elements || [];
+            }
         } catch (e) {
             STATE.roadGeoms = [];
         }
         setLoader(98, `Mapped ${STATE.buildingCount.toLocaleString()} buildings & ${STATE.roadGeoms.length} road paths…`);
 
-        setLoader(100, 'Initializing Kuala Selangor regional GeoAI environment…');
-        await new Promise(r => setTimeout(r, 400));
+        setLoader(100, `Initializing ${reg.name} GeoAI environment…`);
+        await new Promise(r => setTimeout(r, 350));
+    }
+
+    // ---- Clear Map Layers ----
+    function clearAllLayers() {
+        Object.keys(STATE.layers).forEach(k => {
+            if (STATE.layers[k]) {
+                STATE.map.removeLayer(STATE.layers[k]);
+                delete STATE.layers[k];
+            }
+        });
+        if (STATE.heatLayer) {
+            STATE.map.removeLayer(STATE.heatLayer);
+            STATE.heatLayer = null;
+            STATE.heatVisible = false;
+        }
+        const btn3d = $('btn-3d');
+        if (btn3d) {
+            btn3d.style.background = '';
+            btn3d.style.color = '';
+        }
+    }
+
+    // ---- Dynamic Region Switcher ----
+    async function switchRegion(regionId) {
+        if (!REGIONS[regionId] || regionId === STATE.activeRegion) return;
+        
+        const loaderScreen = $('loading-screen');
+        if (loaderScreen) {
+            loaderScreen.classList.remove('hidden');
+        }
+
+        clearAllLayers();
+        await loadData(regionId);
+
+        const reg = REGIONS[regionId];
+
+        // 1. Recenter Map Viewport to Selected Region Center
+        if (STATE.map) {
+            STATE.map.flyTo(reg.center, reg.zoom, { duration: 1.2 });
+        }
+
+        // 2. Re-render Layers according to current checkbox toggles
+        renderPopulation();
+        renderTelcoTowers();
+        renderDEM();
+        renderFlood();
+        renderBuildings();
+        renderInfra();
+        generateCandidates();
+        renderCandidates();
+
+        const layerMap = {
+            'lyr-population': 'population', 'lyr-telco': 'telco', 'lyr-dem': 'dem',
+            'lyr-flood': 'flood', 'lyr-buildings': 'buildings', 'lyr-roads': 'roads',
+            'lyr-infra': 'infra', 'lyr-candidates': 'candidates'
+        };
+        Object.entries(layerMap).forEach(([id, key]) => {
+            const elem = $(id);
+            if (elem) {
+                if (elem.checked && STATE.layers[key]) {
+                    STATE.map.addLayer(STATE.layers[key]);
+                } else if (!elem.checked && STATE.layers[key]) {
+                    STATE.map.removeLayer(STATE.layers[key]);
+                }
+            }
+        });
+
+        // 3. Update Header & Subtitles
+        if ($('logo-sub-region')) $('logo-sub-region').textContent = reg.subText;
+        if ($('overview-title')) $('overview-title').textContent = reg.overviewTitle;
+
+        updateStats();
+        renderCharts();
+        renderSiteCards();
+
+        if ($('site-detail')) $('site-detail').classList.add('hidden');
+
+        if (loaderScreen) {
+            setTimeout(() => loaderScreen.classList.add('hidden'), 350);
+        }
     }
 
     // ---- Initialize Map with Natural Basemaps ----
     function initMap() {
+        const defaultReg = REGIONS[STATE.activeRegion] || REGIONS['kuala_selangor'];
         STATE.map = L.map('map', {
-            center: CENTER,
-            zoom: ZOOM,
+            center: defaultReg.center,
+            zoom: defaultReg.zoom,
             zoomControl: false,
             attributionControl: true
         });
@@ -225,13 +365,20 @@
 
         // Define Natural & Styled Basemaps
         STATE.baseMaps = {
-            "🛰️ Satellite Imagery": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                attribution: 'Tiles &copy; Esri &mdash; Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-                maxZoom: 18
+            "🛰️ Satellite Imagery": L.tileLayer('https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                subdomains: ['0', '1', '2', '3'],
+                attribution: '&copy; Google Maps',
+                maxZoom: 20
+            }),
+            "🌍 Esri Satellite": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri',
+                maxZoom: 19,
+                maxNativeZoom: 17
             }),
             "⛰️ Topographic Terrain": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-                attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, IGN, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
-                maxZoom: 18
+                attribution: 'Tiles &copy; Esri',
+                maxZoom: 19,
+                maxNativeZoom: 17
             }),
             "🌙 Dark Mode": L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; CARTO &copy; OpenStreetMap contributors',
@@ -243,22 +390,39 @@
             })
         };
 
-        // Set default basemap to Esri World Imagery for a stunning, natural appearance
+        // Set default basemap to Google Satellite Imagery
         STATE.baseMaps["🛰️ Satellite Imagery"].addTo(STATE.map);
-        L.control.layers(STATE.baseMaps, null, { position: 'topright' }).addTo(STATE.map);
+        const layerControl = L.control.layers(STATE.baseMaps, {}, { position: 'topright', collapsed: true }).addTo(STATE.map);
+        const container = layerControl.getContainer();
+
+        // Prevent automatic hover expand/collapse
+        if (container) {
+            container.addEventListener('mouseover', (e) => e.stopPropagation(), true);
+            container.addEventListener('mouseout', (e) => e.stopPropagation(), true);
+
+            const toggleBtn = container.querySelector('.leaflet-control-layers-toggle');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    if (container.classList.contains('leaflet-control-layers-expanded')) {
+                        layerControl.collapse();
+                    } else {
+                        layerControl.expand();
+                    }
+                });
+            }
+        }
+
+        // Collapse when clicking anywhere else on the map
+        STATE.map.on('click', () => {
+            if (container.classList.contains('leaflet-control-layers-expanded')) {
+                layerControl.collapse();
+            }
+        });
     }
 
-    // ---- Color & Heatmap Helpers ----
-    function getPopColor(pop) {
-        if (pop > 140) return 'rgba(156, 39, 176, 0.78)';  // Violet Magenta (Peak Urban Core)
-        if (pop > 100) return 'rgba(233, 30, 99, 0.74)';   // Hot Crimson Pink
-        if (pop > 65)  return 'rgba(255, 61, 0, 0.70)';    // Red-Orange
-        if (pop > 35)  return 'rgba(255, 145, 0, 0.65)';   // Bright Amber Orange
-        if (pop > 18)  return 'rgba(255, 214, 0, 0.58)';   // Golden Yellow
-        if (pop > 8)   return 'rgba(0, 230, 118, 0.50)';   // Neon Emerald Green
-        return 'rgba(0, 229, 255, 0.38)';                  // Cool Cyan (Rural Low Density)
-    }
-
+    // ---- Color Helpers ----
     function elevColor(elev) {
         if (elev > 300) return '#b71c1c';
         if (elev > 200) return '#e65100';
@@ -269,57 +433,11 @@
         return '#1a237e';
     }
 
-    let heatActive = false;
-    let heatLayerGroup = null;
-
-    function toggleHeat() {
-        if (!heatLayerGroup) {
-            heatLayerGroup = L.layerGroup();
-            if (STATE.populationData && typeof L.heatLayer === 'function') {
-                const points = STATE.populationData.map(p => [p.lat, p.lng, Math.min(1.0, p.pop / 45)]);
-                const heat = L.heatLayer(points, {
-                    radius: 22,
-                    blur: 15,
-                    maxZoom: 17,
-                    max: 1.0,
-                    gradient: {
-                        0.15: '#00e5ff',
-                        0.35: '#00e676',
-                        0.55: '#ffd600',
-                        0.72: '#ff9100',
-                        0.88: '#ff3d00',
-                        1.00: '#9c27b0'
-                    }
-                });
-                heatLayerGroup.addLayer(heat);
-            }
-        }
-
-        heatActive = !heatActive;
-        const btn = $('btn-3d');
-        if (heatActive) {
-            heatLayerGroup.addTo(STATE.map);
-            if (btn) {
-                btn.style.background = 'var(--accent-cyan)';
-                btn.style.color = '#0a0e1a';
-                btn.title = 'Disable Population Heatmap';
-            }
-        } else {
-            STATE.map.removeLayer(heatLayerGroup);
-            if (btn) {
-                btn.style.background = '';
-                btn.style.color = '';
-                btn.title = 'Toggle Terrain & Population Heatmap';
-            }
-        }
-    }
-
     // ---- Map Layer Rendering ----
-
     function renderPopulation() {
         const group = L.layerGroup();
         if (STATE.populationData && STATE.populationData.length > 0) {
-            // 1. Smooth canvas heatmap — blends naturally under other overlays
+            // 1. Smooth canvas heatmap
             if (typeof L.heatLayer === 'function') {
                 const heatPoints = STATE.populationData.map(p => [p.lat, p.lng, Math.min(1.0, p.pop / 40)]);
                 const heat = L.heatLayer(heatPoints, {
@@ -341,7 +459,7 @@
                 group.addLayer(heat);
             }
 
-            // 2. Invisible interactive grid for click-popups (no visible fill)
+            // 2. Invisible interactive grid for click-popups
             const cellSize = 0.008;
             const gridMap = new Map();
             STATE.populationData.forEach(p => {
@@ -478,7 +596,7 @@
             });
         }
 
-        // 3. Render outline-heavy, low-fill polygons — designed to layer over the population heatmap
+        // 3. Render outline-heavy, low-fill polygons
         floodMap.forEach(cell => {
             const south = cell.cellY * cellSize;
             const north = south + cellSize;
@@ -492,7 +610,6 @@
             let fillColor, strokeColor, dashArray, fillOp, strokeWeight, title, desc;
 
             if (hasPast && hasForecast) {
-                // Dual Hazard — solid bright border, very subtle fill
                 fillColor = 'rgba(156, 39, 176, 0.18)';
                 strokeColor = '#e040fb';
                 dashArray = null;
@@ -501,7 +618,6 @@
                 title = '🚨 Dual Hazard Flood Zone (Past + Forecasted)';
                 desc = `<strong>Past SAR Detections:</strong> ${cell.pastCount} water hits<br><strong>Forecasted Elevation:</strong> Lowland (${Math.min(...cell.demElevs)}m ASL)`;
             } else if (hasPast) {
-                // Past Historical — dashed cyan/white border, near-transparent fill
                 fillColor = 'rgba(255, 255, 255, 0.08)';
                 strokeColor = '#b2ebf2';
                 dashArray = '5, 5';
@@ -510,7 +626,6 @@
                 title = '🌊 Past Historical Flood Footprint';
                 desc = `<strong>Source:</strong> Sentinel-1 SAR Radar Observation<br><strong>Observed Hits:</strong> ${cell.pastCount} SAR flood footprints`;
             } else {
-                // Forecasted — dashed warm-red border, faint fill
                 fillColor = 'rgba(255, 23, 68, 0.14)';
                 strokeColor = '#ff8a80';
                 dashArray = '6, 6';
@@ -575,15 +690,23 @@
         const group = L.layerGroup();
         if (STATE.buildingGeoms && STATE.buildingGeoms.length > 0) {
             STATE.buildingGeoms.slice(0, 1500).forEach(b => {
-                if (!b.geometry || b.geometry.length < 3) return;
-                const coords = b.geometry.map(g => [g.lat, g.lon]);
                 const buildingType = b.tags?.building || 'yes';
                 const color = (b.tags?.amenity || b.tags?.office) ? '#ffb74d' : '#81c784';
 
-                L.polygon(coords, {
-                    color: color, weight: 1.2, fillColor: color, fillOpacity: 0.4
-                }).bindPopup(`<strong>Building Footprint</strong><br>Type: ${buildingType}`)
-                  .addTo(group);
+                if (b.geometry && b.geometry.length >= 3) {
+                    const coords = b.geometry.map(g => [g.lat, g.lon]);
+                    L.polygon(coords, {
+                        color: color, weight: 1.2, fillColor: color, fillOpacity: 0.4
+                    }).bindPopup(`<strong>Building Footprint</strong><br>Type: ${buildingType}`)
+                      .addTo(group);
+                } else if (b.bounds) {
+                    const southWest = [b.bounds.minlat, b.bounds.minlon];
+                    const northEast = [b.bounds.maxlat, b.bounds.maxlon];
+                    L.rectangle([southWest, northEast], {
+                        color: color, weight: 1.2, fillColor: color, fillOpacity: 0.4
+                    }).bindPopup(`<strong>Building Footprint</strong><br>Type: ${buildingType}`)
+                      .addTo(group);
+                }
             });
         }
         STATE.layers.buildings = group;
@@ -616,7 +739,7 @@
     // ---- Multi-Objective Candidate Optimization Engine ----
     function getElevationAndSlope(lat, lng) {
         if (!STATE.demData || STATE.demData.length === 0) return { elev: 25, slope: 2 };
-        const nearby = STATE.demData.filter(p => dist([p.lat, p.lng], [lat, lng]) < 0.03);
+        const nearby = STATE.demData.filter(p => dist([p.lat, p.lng], [lat, lng]) < 0.035);
         if (nearby.length > 0) {
             const avgE = Math.round(nearby.reduce((s, p) => s + p.elev, 0) / nearby.length);
             const avgS = Math.round(nearby.reduce((s, p) => s + p.slope, 0) / nearby.length);
@@ -626,9 +749,9 @@
     }
 
     function generateCandidates() {
-        // Regional grid search across Kuala Selangor District
-        const latMin = 3.20, latMax = 3.65, lngMin = 101.08, lngMax = 101.55;
-        const step = 0.018; // ~2.0 km resolution grid search
+        const reg = REGIONS[STATE.activeRegion] || REGIONS['kuala_selangor'];
+        const latMin = reg.latMin, latMax = reg.latMax, lngMin = reg.lngMin, lngMax = reg.lngMax;
+        const step = reg.id === 'kuala_krai' ? 0.025 : 0.018; 
         const rawCandidates = [];
 
         for (let lat = latMin; lat <= latMax; lat += step) {
@@ -640,7 +763,7 @@
                     .filter(p => distKm(lat, lng, p.lat, p.lng) <= 2.5)
                     .reduce((sum, p) => sum + p.pop, 0);
 
-                if (popNear < 10) continue; // Skip uninhabited areas
+                if (popNear < 8) continue; // Skip uninhabited areas
 
                 // Distance to nearest existing tower
                 let minTowerDist = 999;
@@ -653,14 +776,17 @@
                 const nearFlood = STATE.floodData.some(f => distKm(lat, lng, f.lat, f.lng) <= 1.0);
 
                 // Nearby facilities
-                const bldgNear = STATE.buildingGeoms.filter(b => b.geometry && b.geometry[0] && distKm(lat, lng, b.geometry[0].lat, b.geometry[0].lon) <= 1.5).length;
+                const bldgNear = STATE.buildingGeoms.filter(b => {
+                    let bLat = b.geometry ? b.geometry[0]?.lat : (b.bounds ? (b.bounds.minlat + b.bounds.maxlat) / 2 : null);
+                    let bLon = b.geometry ? b.geometry[0]?.lon : (b.bounds ? (b.bounds.minlon + b.bounds.maxlon) / 2 : null);
+                    return bLat && bLon && distKm(lat, lng, bLat, bLon) <= 1.5;
+                }).length;
+
                 const infraNear = STATE.infraData.filter(e => e.lat && distKm(lat, lng, e.lat, e.lon) <= 2.0).length;
 
                 // Scoring calculations
-                // Coverage score rewards unserved population and distance from existing towers
                 let coverageScore = Math.min(popNear * 0.4 + (minTowerDist > 2.5 ? 35 : minTowerDist * 10) + infraNear * 8, 100);
                 
-                // Risk score penalizes flood proximity, very low elevation, or very steep slopes
                 let risk = 5;
                 if (nearFlood) risk += 45;
                 if (elev < 12) risk += 25;
@@ -719,7 +845,6 @@
                     </div>
                 `).addTo(group);
 
-            // Recommended coverage radius circle (2.0 km)
             L.circle([s.lat, s.lng], {
                 radius: 2000, fillColor: color, fillOpacity: 0.12,
                 color: color, weight: 2, dashArray: '6, 6'
@@ -729,17 +854,21 @@
         group.addTo(STATE.map);
     }
 
-    // ---- Heatmap Layer ----
+    // ---- Heatmap Layer Toggle ----
     function toggleHeat() {
         if (STATE.heatVisible && STATE.heatLayer) {
             STATE.map.removeLayer(STATE.heatLayer);
             STATE.heatVisible = false;
+            const btn = $('btn-3d');
+            if (btn) { btn.style.background = ''; btn.style.color = ''; }
             return;
         }
         const pts = STATE.demData.map(p => [p.lat, p.lng, Math.min(p.elev / 350, 1)]);
         STATE.heatLayer = L.heatLayer(pts, { radius: 18, blur: 22, maxZoom: 14, gradient: { 0.2: '#1a237e', 0.4: '#00838f', 0.6: '#2e7d32', 0.8: '#f9a825', 1.0: '#b71c1c' } });
         STATE.heatLayer.addTo(STATE.map);
         STATE.heatVisible = true;
+        const btn = $('btn-3d');
+        if (btn) { btn.style.background = 'var(--accent-cyan)'; btn.style.color = '#0a0e1a'; }
     }
 
     // ---- UI & Chart Updates ----
@@ -761,7 +890,10 @@
         });
 
         if ($('elevChart')) {
-            new Chart($('elevChart'), {
+            if (STATE.elevChartInstance) {
+                STATE.elevChartInstance.destroy();
+            }
+            STATE.elevChartInstance = new Chart($('elevChart'), {
                 type: 'bar',
                 data: {
                     labels,
@@ -787,7 +919,10 @@
         const high = STATE.candidateSites.filter(s => s.risk >= 60).length;
 
         if ($('riskChart')) {
-            new Chart($('riskChart'), {
+            if (STATE.riskChartInstance) {
+                STATE.riskChartInstance.destroy();
+            }
+            STATE.riskChartInstance = new Chart($('riskChart'), {
                 type: 'doughnut',
                 data: {
                     labels: ['Low Risk', 'Medium Risk', 'High Risk'],
@@ -840,27 +975,48 @@
         const panel = $('site-detail');
         if (!panel) return;
         panel.classList.remove('hidden');
-        $('site-title').textContent = `Candidate Site #${i + 1} Multi-Objective Analysis`;
-        $('detail-grid').innerHTML = `
-            <div class="detail-item"><div class="label">Composite Score</div><div class="value" style="color:#00e5ff">${s.composite}/100</div></div>
-            <div class="detail-item"><div class="label">Risk Classification</div><div class="value" style="color:${s.risk < 35 ? '#00e676' : s.risk < 60 ? '#ffab00' : '#ff5252'}">${s.risk}/100</div></div>
-            <div class="detail-item"><div class="label">Pop. Demand (2.5km)</div><div class="value">~${s.popNear.toLocaleString()}</div></div>
-            <div class="detail-item"><div class="label">Nearest Telco Tower</div><div class="value">${s.minTowerDist} km</div></div>
-            <div class="detail-item"><div class="label">Terrain Elevation</div><div class="value">${s.elev}m ASL</div></div>
-            <div class="detail-item"><div class="label">Flood Risk Zone</div><div class="value">${s.nearFlood ? '⚠️ Footprint' : '✅ Clear'}</div></div>
-            <div class="detail-item"><div class="label">Nearby Facilities</div><div class="value">${s.infraNear}</div></div>
-            <div class="detail-item"><div class="label">Coordinates</div><div class="value" style="font-size:0.7rem">${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}</div></div>
-        `;
+        if ($('site-title')) $('site-title').textContent = `Candidate Site #${i + 1} Multi-Objective Analysis`;
+        if ($('detail-grid')) {
+            $('detail-grid').innerHTML = `
+                <div class="detail-item"><div class="label">Composite Score</div><div class="value" style="color:#00e5ff">${s.composite}/100</div></div>
+                <div class="detail-item"><div class="label">Risk Classification</div><div class="value" style="color:${s.risk < 35 ? '#00e676' : s.risk < 60 ? '#ffab00' : '#ff5252'}">${s.risk}/100</div></div>
+                <div class="detail-item"><div class="label">Pop. Demand (2.5km)</div><div class="value">~${s.popNear.toLocaleString()}</div></div>
+                <div class="detail-item"><div class="label">Nearest Telco Tower</div><div class="value">${s.minTowerDist} km</div></div>
+                <div class="detail-item"><div class="label">Terrain Elevation</div><div class="value">${s.elev}m ASL</div></div>
+                <div class="detail-item"><div class="label">Flood Risk Zone</div><div class="value">${s.nearFlood ? '⚠️ Footprint' : '✅ Clear'}</div></div>
+                <div class="detail-item"><div class="label">Nearby Facilities</div><div class="value">${s.infraNear}</div></div>
+                <div class="detail-item"><div class="label">Coordinates</div><div class="value" style="font-size:0.7rem">${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}</div></div>
+            `;
+        }
     }
 
     // ---- Event Bindings ----
     function bindEvents() {
+        // Theme toggle
+        if ($('btn-theme')) {
+            $('btn-theme').addEventListener('click', () => {
+                const html = document.documentElement;
+                const isDark = html.getAttribute('data-theme') === 'dark';
+                html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+                localStorage.setItem('pintar-theme', isDark ? 'light' : 'dark');
+            });
+        }
+
+        // Region select dropdown listener
+        if ($('region-select')) {
+            $('region-select').addEventListener('change', (e) => {
+                switchRegion(e.target.value);
+            });
+        }
+
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
                 btn.classList.add('active');
-                $('panel-' + btn.dataset.panel).classList.add('active');
+                if ($('panel-' + btn.dataset.panel)) {
+                    $('panel-' + btn.dataset.panel).classList.add('active');
+                }
             });
         });
 
@@ -880,7 +1036,13 @@
             }
         });
 
-        if ($('btn-center')) $('btn-center').addEventListener('click', () => STATE.map.flyTo(CENTER, ZOOM, { duration: 1 }));
+        if ($('btn-center')) {
+            $('btn-center').addEventListener('click', () => {
+                const reg = REGIONS[STATE.activeRegion] || REGIONS['kuala_selangor'];
+                STATE.map.flyTo(reg.center, reg.zoom, { duration: 1 });
+            });
+        }
+
         if ($('btn-3d')) $('btn-3d').addEventListener('click', toggleHeat);
 
         if ($('btn-run-analysis')) {
@@ -891,15 +1053,17 @@
                 renderSiteCards();
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-                $('nav-analysis').classList.add('active');
-                $('panel-analysis').classList.add('active');
+                if ($('nav-analysis')) $('nav-analysis').classList.add('active');
+                if ($('panel-analysis')) $('panel-analysis').classList.add('active');
             });
         }
 
         if ($('btn-clear')) {
             $('btn-clear').addEventListener('click', () => {
-                $('analysis-results').innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;">No results yet. Click "Run Regional Optimization".</p>';
-                $('site-detail').classList.add('hidden');
+                if ($('analysis-results')) {
+                    $('analysis-results').innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;">No results yet. Click "Run Regional Optimization".</p>';
+                }
+                if ($('site-detail')) $('site-detail').classList.add('hidden');
                 if (STATE.layers.candidates) STATE.map.removeLayer(STATE.layers.candidates);
             });
         }
@@ -923,23 +1087,27 @@
             const composite = Math.round(Math.min(popNear * 0.4 + (minTowerDist > 2.5 ? 35 : minTowerDist * 10), 100) * 0.55 + (100 - risk) * 0.45);
 
             const tooltip = $('info-tooltip');
-            tooltip.classList.remove('hidden');
-            $('tooltip-content').innerHTML = `
-                <strong>📍 Point Evaluation (${lat.toFixed(4)}, ${lng.toFixed(4)})</strong> &nbsp;
-                Elev: <strong>${elev}m</strong> |
-                Pop: <strong>~${Math.round(popNear)}</strong> |
-                Tower Dist: <strong>${minTowerDist.toFixed(1)}km</strong> |
-                Risk: <strong style="color:${risk < 35 ? '#00e676' : risk < 60 ? '#ffab00' : '#ff5252'}">${risk}/100</strong> |
-                Score: <strong style="color:#00e5ff">${composite}/100</strong>
-            `;
-            setTimeout(() => tooltip.classList.add('hidden'), 7000);
+            if (tooltip) {
+                tooltip.classList.remove('hidden');
+                if ($('tooltip-content')) {
+                    $('tooltip-content').innerHTML = `
+                        <strong>📍 Point Evaluation (${lat.toFixed(4)}, ${lng.toFixed(4)})</strong> &nbsp;
+                        Elev: <strong>${elev}m</strong> |
+                        Pop: <strong>~${Math.round(popNear)}</strong> |
+                        Tower Dist: <strong>${minTowerDist.toFixed(1)}km</strong> |
+                        Risk: <strong style="color:${risk < 35 ? '#00e676' : risk < 60 ? '#ffab00' : '#ff5252'}">${risk}/100</strong> |
+                        Score: <strong style="color:#00e5ff">${composite}/100</strong>
+                    `;
+                }
+                setTimeout(() => tooltip.classList.add('hidden'), 7000);
+            }
         });
     }
 
     // ---- Boot Sequence ----
     async function boot() {
         try {
-            await loadData();
+            await loadData('kuala_selangor');
             initMap();
             renderPopulation();
             renderTelcoTowers();
@@ -962,4 +1130,3 @@
 
     document.addEventListener('DOMContentLoaded', boot);
 })();
-
