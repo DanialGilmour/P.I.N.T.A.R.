@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P.I.N.T.A.R. — Kuala Selangor Regional GeoAI Telco Platform</title>
+    <meta name="description" content="Predictive Intelligence for Network Tower Allocation & Risk-assessment. Enterprise GeoAI platform for Kuala Selangor, Selangor by Team Bolehla (ASEAN GeoAI Fusion 2026).">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <div class="radar-spinner">
+                <div class="radar-ring"></div>
+                <div class="radar-ring"></div>
+                <div class="radar-ring"></div>
+                <div class="radar-dot"></div>
+            </div>
+            <h1 class="loader-title">P.I.N.T.A.R.</h1>
+            <p class="loader-subtitle">Initializing GeoAI Engine…</p>
+            <div class="loader-bar"><div class="loader-fill" id="loader-fill"></div></div>
+            <p class="loader-status" id="loader-status">Loading terrain data…</p>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-group">
+                <div class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                        <circle cx="14" cy="14" r="12" stroke="url(#lg1)" stroke-width="2"/>
+                        <circle cx="14" cy="14" r="7" stroke="url(#lg1)" stroke-width="1.5" stroke-dasharray="3 3"/>
+                        <circle cx="14" cy="14" r="3" fill="url(#lg1)"/>
+                        <line x1="14" y1="2" x2="14" y2="8" stroke="url(#lg1)" stroke-width="1.5"/>
+                        <line x1="14" y1="20" x2="14" y2="26" stroke="url(#lg1)" stroke-width="1.5"/>
+                        <line x1="2" y1="14" x2="8" y2="14" stroke="url(#lg1)" stroke-width="1.5"/>
+                        <line x1="20" y1="14" x2="26" y2="14" stroke="url(#lg1)" stroke-width="1.5"/>
+                        <defs><linearGradient id="lg1" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#00E5FF"/><stop offset="1" stop-color="#7C4DFF"/></linearGradient></defs>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="logo-text">P.I.N.T.A.R.</h1>
+                    <span class="logo-sub">Kuala Selangor Regional GeoAI</span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <button class="nav-btn active" data-panel="dashboard" id="nav-dashboard">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                <span>Dashboard</span>
+            </button>
+            <button class="nav-btn" data-panel="layers" id="nav-layers">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                <span>Map Layers</span>
+            </button>
+            <button class="nav-btn" data-panel="analysis" id="nav-analysis">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <span>Site Analysis</span>
+            </button>
+            <button class="nav-btn" data-panel="about" id="nav-about">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                <span>About</span>
+            </button>
+        </nav>
+
+        <!-- Dashboard Panel -->
+        <div class="panel active" id="panel-dashboard">
+            <h2 class="panel-title">Regional Overview (Kuala Selangor)</h2>
+            <div class="stats-grid">
+                <div class="stat-card" id="stat-population">
+                    <div class="stat-icon pop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+                    <div class="stat-info"><span class="stat-value" id="val-population">—</span><span class="stat-label">Regional Pop. (WorldPop)</span></div>
+                </div>
+                <div class="stat-card" id="stat-telco">
+                    <div class="stat-icon telco"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 22h20L12 2z"/><line x1="12" y1="8" x2="12" y2="16"/><circle cx="12" cy="18" r="1.5"/></svg></div>
+                    <div class="stat-info"><span class="stat-value" id="val-telco">—</span><span class="stat-label">Existing Telco Towers</span></div>
+                </div>
+                <div class="stat-card" id="stat-elevation">
+                    <div class="stat-icon elev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21l4-11 4 11M12 10V3M4 21h16"/></svg></div>
+                    <div class="stat-info"><span class="stat-value" id="val-points">—</span><span class="stat-label">SRTM DEM Points</span></div>
+                </div>
+                <div class="stat-card" id="stat-flood">
+                    <div class="stat-icon flood"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 15c3-3 5-1 8-4s5-1 8-4"/><path d="M2 19c3-3 5-1 8-4s5-1 8-4"/></svg></div>
+                    <div class="stat-info"><span class="stat-value" id="val-flood">—</span><span class="stat-label">Flood Risk Footprints</span></div>
+                </div>
+                <div class="stat-card" id="stat-buildings">
+                    <div class="stat-icon build"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="1"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="9" y2="14.01"/><line x1="15" y1="14" x2="15" y2="14.01"/></svg></div>
+                    <div class="stat-info"><span class="stat-value" id="val-buildings">—</span><span class="stat-label">Building Footprints</span></div>
+                </div>
+                <div class="stat-card" id="stat-infra">
+                    <div class="stat-icon infra"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                    <div class="stat-info"><span class="stat-value" id="val-infra">—</span><span class="stat-label">Critical Infrastructure</span></div>
+                </div>
+            </div>
+            <div class="chart-section">
+                <h3 class="section-title">Regional Elevation Profile</h3>
+                <canvas id="elevChart" height="160"></canvas>
+            </div>
+            <div class="chart-section">
+                <h3 class="section-title">Candidate Risk Classification</h3>
+                <canvas id="riskChart" height="160"></canvas>
+            </div>
+        </div>
+
+        <!-- Layers Panel -->
+        <div class="panel" id="panel-layers">
+            <h2 class="panel-title">Regional GIS Layers</h2>
+            <div class="layer-group">
+                <label class="layer-toggle">
+                    <input type="checkbox" id="lyr-population" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="layer-name">👥 WorldPop Population Choropleth Map</span>
+                </label>
+                <label class="layer-toggle">
+                    <input type="checkbox" id="lyr-telco" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="layer-name">📡 Existing Telco Base Stations</span>
+                </label>
+                <label class="layer-toggle">
+                    <input type="checkbox" id="lyr-candidates" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="layer-name">🎯 Optimal Candidate Sites</span>
+                </label>
+                <label class="layer-toggle">
+                    <input type="checkbox" id="lyr-flood" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="layer-name">🌊 Sentinel-1 Flood Polygon Layer</span>
+                </label>
+                <label class="layer-toggle">
+                    <input type="checkbox" id="lyr-buildings" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="layer-name">🏘️ Building Footprints</span>
+                </label>
+                <label class="layer-toggle">
+                    <input type="checkbox" id="lyr-infra" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="layer-name">🏫 Critical Infrastructure</span>
+                </label>
+            </div>
+            <div class="legend-section">
+                <h3 class="section-title">Population Density Heatmap Scale</h3>
+                <div class="legend-bar">
+                    <div class="pop-gradient"></div>
+                    <div class="legend-labels"><span>Low (<8)</span><span>Moderate (35)</span><span>High (140+)</span></div>
+                </div>
+            </div>
+            <div class="legend-section">
+                <h3 class="section-title">Flood Vulnerability Classification</h3>
+                <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--text-muted);">
+                        <span style="width:14px;height:12px;border-radius:2px;background:rgba(255,255,255,0.08);border:2px dashed #b2ebf2;display:inline-block;flex-shrink:0;"></span>
+                        <span>🌊 Past Historical Flood (Sentinel-1 SAR)</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--text-muted);">
+                        <span style="width:14px;height:12px;border-radius:2px;background:rgba(255,23,68,0.14);border:2px dashed #ff8a80;display:inline-block;flex-shrink:0;"></span>
+                        <span>🔮 Forecasted Flood Zone (DEM Risk Model)</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--text-muted);">
+                        <span style="width:14px;height:12px;border-radius:2px;background:rgba(156,39,176,0.18);border:2px solid #e040fb;display:inline-block;flex-shrink:0;"></span>
+                        <span>🚨 Dual Hazard Zone (Past + Forecasted)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="legend-section">
+                <h3 class="section-title">Candidate Risk Legend</h3>
+                <div class="risk-legend">
+                    <span class="risk-dot low"></span> Low Risk
+                    <span class="risk-dot med"></span> Medium Risk
+                    <span class="risk-dot high"></span> High Risk
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Panel -->
+        <div class="panel" id="panel-analysis">
+            <h2 class="panel-title">Site Analysis Engine</h2>
+            <p class="panel-desc">Click on the map to evaluate a candidate tower location, or use the auto-generated optimal sites below.</p>
+            <div class="analysis-controls">
+                <button class="btn-primary" id="btn-run-analysis">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Run Optimization
+                </button>
+                <button class="btn-secondary" id="btn-clear">Clear Results</button>
+            </div>
+            <div id="analysis-results" class="analysis-results"></div>
+            <div id="site-detail" class="site-detail hidden">
+                <h3 class="section-title" id="site-title">Site Details</h3>
+                <div class="detail-grid" id="detail-grid"></div>
+            </div>
+        </div>
+
+        <!-- About Panel -->
+        <div class="panel" id="panel-about">
+            <h2 class="panel-title">About P.I.N.T.A.R.</h2>
+            <div class="about-content">
+                <p><strong>Predictive Intelligence for Network Tower Allocation & Risk-assessment</strong></p>
+                <p>Developed by <strong>Team Bolehla</strong> for the ASEAN GeoAI Fusion 2026 Hackathon (HACK-MY-090).</p>
+                <p>P.I.N.T.A.R. is an enterprise GeoAI platform designed to optimize telecommunication tower allocation and climate risk mitigation across the entire Kuala Selangor district.</p>
+                <h3 class="section-title">Study Area & Coverage</h3>
+                <p>Kuala Selangor District, Selangor, Malaysia (incorporating Bestari Jaya, Tanjung Karang, Jeram, Ijok, and Kuala Selangor town centers).</p>
+                <h3 class="section-title">Regional Datasets Integrated</h3>
+                <ul class="data-list">
+                    <li><strong>WorldPop Population Grid (39,649 cells)</strong> — High-resolution demographic distribution (95,359 regional residents).</li>
+                    <li><strong>Existing Telco Network (67 Towers)</strong> — Base station towers & masts for coverage gap analysis.</li>
+                    <li><strong>Sentinel-1 SAR (2,755 points)</strong> — Active flood footprints mapping flood vulnerability.</li>
+                    <li><strong>SRTM DEM (30,584 points)</strong> — Terrain elevation & slope for line-of-sight signal propagation.</li>
+                    <li><strong>OpenStreetMap Vector Features</strong> — Building footprints, road networks & critical facilities.</li>
+                </ul>
+                <h3 class="section-title">Methodology</h3>
+                <ul class="data-list">
+                    <li>Risk Model — Flood proximity & slope stability scoring</li>
+                    <li>Coverage Model — Spatial demand attraction & coverage gap analysis</li>
+                    <li>Multi-Objective Ranking — Pareto-optimal tower placement</li>
+                </ul>
+                <h3 class="section-title">Tech Stack</h3>
+                <div class="tech-badges">
+                    <span class="badge">WorldPop</span>
+                    <span class="badge">Sentinel-1 SAR</span>
+                    <span class="badge">SRTM DEM</span>
+                    <span class="badge">Leaflet.js</span>
+                    <span class="badge">OpenStreetMap</span>
+                    <span class="badge">Chart.js</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <span>ASEAN GeoAI Fusion 2026</span>
+            <span>HACK-MY-090</span>
+        </div>
+    </aside>
+
+    <!-- Map Container -->
+    <main id="map-container">
+        <div id="map"></div>
+        <!-- Floating Info Panel -->
+        <div id="info-tooltip" class="info-tooltip hidden">
+            <div id="tooltip-content"></div>
+        </div>
+        <!-- Map Controls -->
+        <div class="map-controls">
+            <button class="map-ctrl-btn" id="btn-center" title="Center Regional View">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+            </button>
+            <button class="map-ctrl-btn" id="btn-3d" title="Toggle Terrain Heatmap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </button>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="app.js?v=14"></script>
+</body>
+</html>

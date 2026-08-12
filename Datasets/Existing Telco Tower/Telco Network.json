@@ -1,0 +1,444 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-08-12T03:37:50Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 2419619291,
+      "lat": 3.3423045,
+      "lon": 101.246832,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2419619301,
+      "lat": 3.3424672,
+      "lon": 101.2469679,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5462691797,
+      "lat": 3.2545961,
+      "lon": 101.546995,
+      "tags": {
+        "man_made": "mast",
+        "tower:construction": "lattice"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5788369099,
+      "lat": 3.3744498,
+      "lon": 101.5206939,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5788369100,
+      "lat": 3.3755904,
+      "lon": 101.5202567,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8004289377,
+      "lat": 3.3174348,
+      "lon": 101.5750685,
+      "tags": {
+        "communication:3G": "yes",
+        "communication:4G": "yes",
+        "communication:lte": "yes",
+        "man_made": "tower",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8081694353,
+      "lat": 3.4155369,
+      "lon": 101.5848136,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8082097597,
+      "lat": 3.3989981,
+      "lon": 101.5596987,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8088772324,
+      "lat": 3.3188085,
+      "lon": 101.4170533,
+      "tags": {
+        "man_made": "mast",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8114405464,
+      "lat": 3.3086194,
+      "lon": 101.5844024,
+      "tags": {
+        "communication:3G": "yes",
+        "communication:4G": "yes",
+        "communication:lte": "yes",
+        "man_made": "mast",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8141381598,
+      "lat": 3.1809599,
+      "lon": 101.536016,
+      "tags": {
+        "man_made": "mast",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8141531800,
+      "lat": 3.179511,
+      "lon": 101.5442839,
+      "tags": {
+        "man_made": "mast",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8143719855,
+      "lat": 3.1359177,
+      "lon": 101.4937015,
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8202178174,
+      "lat": 3.1300524,
+      "lon": 101.4408392,
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9498642399,
+      "lat": 3.3146521,
+      "lon": 101.5780582,
+      "tags": {
+        "communication:3G": "yes",
+        "communication:4G": "yes",
+        "communication:lte": "yes",
+        "man_made": "mast",
+        "mimics": "flagpole",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9498642400,
+      "lat": 3.3146201,
+      "lon": 101.5780961,
+      "tags": {
+        "communication:3G": "yes",
+        "communication:4G": "yes",
+        "communication:5G": "yes",
+        "communication:lte": "yes",
+        "man_made": "mast",
+        "mimics": "flagpole",
+        "tower:construction": "freestanding",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10923563956,
+      "lat": 3.2281344,
+      "lon": 101.4927949,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11975720519,
+      "lat": 3.1812346,
+      "lon": 101.5428187,
+      "tags": {
+        "man_made": "mast",
+        "tower:type": "lighting"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12038575594,
+      "lat": 3.2474462,
+      "lon": 101.4283783,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12133717335,
+      "lat": 3.2057819,
+      "lon": 101.5821508,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12717364277,
+      "lat": 3.233874,
+      "lon": 101.4132721,
+      "tags": {
+        "man_made": "tower",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1286305455,
+      "nodes": [
+        11930949978,
+        5462691795,
+        11930949977,
+        11930949976,
+        11930949978
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1286305456,
+      "nodes": [
+        5462691794,
+        11930949981,
+        11930949980,
+        11930949979,
+        5462691794
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1286305457,
+      "nodes": [
+        11930949985,
+        11930949984,
+        11930949983,
+        11930949982,
+        11930949985
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1286305458,
+      "nodes": [
+        5462691796,
+        11930949988,
+        11930949987,
+        11930949986,
+        5462691796
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1364627838,
+      "nodes": [
+        12637396677,
+        12637396674,
+        12637396675,
+        12637396676,
+        12637396677
+      ],
+      "tags": {
+        "man_made": "tower",
+        "tower:construction": "lattice",
+        "tower:type": "communication"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5462691796,
+      "lat": 3.2536546,
+      "lon": 101.5448787
+    },
+    {
+      "type": "node",
+      "id": 11930949982,
+      "lat": 3.253837,
+      "lon": 101.5450766
+    },
+    {
+      "type": "node",
+      "id": 11930949985,
+      "lat": 3.2538561,
+      "lon": 101.5449812
+    },
+    {
+      "type": "node",
+      "id": 11930949986,
+      "lat": 3.2536288,
+      "lon": 101.5450318
+    },
+    {
+      "type": "node",
+      "id": 11930949987,
+      "lat": 3.2537818,
+      "lon": 101.5450576
+    },
+    {
+      "type": "node",
+      "id": 11930949988,
+      "lat": 3.2538075,
+      "lon": 101.5449045
+    },
+    {
+      "type": "node",
+      "id": 5462691794,
+      "lat": 3.2546685,
+      "lon": 101.5441624
+    },
+    {
+      "type": "node",
+      "id": 5462691795,
+      "lat": 3.2553112,
+      "lon": 101.5440201
+    },
+    {
+      "type": "node",
+      "id": 11930949976,
+      "lat": 3.2552406,
+      "lon": 101.5441375
+    },
+    {
+      "type": "node",
+      "id": 11930949977,
+      "lat": 3.255334,
+      "lon": 101.5441149
+    },
+    {
+      "type": "node",
+      "id": 11930949978,
+      "lat": 3.2552178,
+      "lon": 101.5440427
+    },
+    {
+      "type": "node",
+      "id": 11930949979,
+      "lat": 3.2546055,
+      "lon": 101.5442387
+    },
+    {
+      "type": "node",
+      "id": 11930949980,
+      "lat": 3.2546816,
+      "lon": 101.5443017
+    },
+    {
+      "type": "node",
+      "id": 11930949981,
+      "lat": 3.2547446,
+      "lon": 101.5442255
+    },
+    {
+      "type": "node",
+      "id": 11930949983,
+      "lat": 3.2539322,
+      "lon": 101.5450958
+    },
+    {
+      "type": "node",
+      "id": 11930949984,
+      "lat": 3.2539514,
+      "lon": 101.5450003
+    },
+    {
+      "type": "node",
+      "id": 12637396674,
+      "lat": 3.4975675,
+      "lon": 101.5320326
+    },
+    {
+      "type": "node",
+      "id": 12637396675,
+      "lat": 3.4975945,
+      "lon": 101.532096
+    },
+    {
+      "type": "node",
+      "id": 12637396676,
+      "lat": 3.4975313,
+      "lon": 101.5321231
+    },
+    {
+      "type": "node",
+      "id": 12637396677,
+      "lat": 3.4975043,
+      "lon": 101.5320597
+    }
+  ]
+}

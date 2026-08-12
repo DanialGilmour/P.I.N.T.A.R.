@@ -1,0 +1,808 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-08-11T15:12:40Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 7466060637,
+      "lat": 3.3771583,
+      "lon": 101.408978,
+      "tags": {
+        "addr:city": "Bestari Jaya",
+        "addr:postcode": "45600",
+        "addr:street": "Jalan Rawang - Bestari Jaya",
+        "amenity": "police",
+        "name": "Balai Polis Bestari Jaya"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7466060638,
+      "lat": 3.3765536,
+      "lon": 101.4096732,
+      "tags": {
+        "addr:city": "Bestari Jaya",
+        "addr:postcode": "45600",
+        "addr:street": "Jalan Bukit Badong",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Sai Policlinic"
+      }
+    },
+    {
+      "type": "way",
+      "id": 405120356,
+      "nodes": [
+        4073415951,
+        4073415952,
+        4073415953,
+        4073415954,
+        4073415955,
+        4073415956,
+        4073415957,
+        4073415958,
+        4073415959,
+        4073415960,
+        4073415961,
+        4073415962,
+        4073415963,
+        4073415964,
+        4073415965,
+        4073415951
+      ],
+      "tags": {
+        "addr:city": "Bestari Jaya",
+        "addr:postcode": "45600",
+        "amenity": "school",
+        "name": "Kolej Vokasional Kuala Selangor",
+        "website": "https://kvkualaselangor.moe.edu.my/"
+      }
+    },
+    {
+      "type": "way",
+      "id": 798273492,
+      "nodes": [
+        7466198844,
+        7466198845,
+        7466198846,
+        12915974319,
+        12915974320,
+        7466198847,
+        7466198844
+      ],
+      "tags": {
+        "addr:city": "Bestari Jaya",
+        "addr:postcode": "45600",
+        "addr:street": "Jalan Sekolah",
+        "amenity": "school",
+        "name": "SMK Sultan Sulaiman Shah",
+        "name:zh": "苏丹苏莱曼沙国中",
+        "official_name": "Sekolah Menengah Kebangsaan Sultan Sulaiman Shah",
+        "wikidata": "Q20448121",
+        "wikipedia": "ms:Sekolah Menengah Kebangsaan Sultan Sulaiman Shah"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1107642949,
+      "nodes": [
+        10134707980,
+        7475497313,
+        10134707981,
+        10134707982,
+        10134707983,
+        10134707980
+      ],
+      "tags": {
+        "addr:city": "Bestari Jaya",
+        "addr:postcode": "45600",
+        "amenity": "school",
+        "name": "SK Jaya Setia",
+        "wikidata": "Q20455505",
+        "wikipedia": "ms:Sekolah Kebangsaan Jaya Setia"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1107642957,
+      "nodes": [
+        10134729140,
+        10134729141,
+        10134729142,
+        10134729143,
+        10134729144,
+        7444749515,
+        10134729145,
+        10134729146,
+        10134729147,
+        10134729140
+      ],
+      "tags": {
+        "addr:city": "Bestari Jaya",
+        "addr:postcode": "45600",
+        "addr:street": "Jalan Bukit Badong",
+        "amenity": "school",
+        "name": "SMK Raja Muda Musa",
+        "name:zh": "拉惹慕达慕沙国中",
+        "wikidata": "Q20447927",
+        "wikipedia": "ms:Sekolah Menengah Kebangsaan Raja Muda Musa, Selangor"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1107642964,
+      "nodes": [
+        10134729174,
+        5473323061,
+        10134729175,
+        10134729176,
+        10134729174
+      ],
+      "tags": {
+        "amenity": "school",
+        "name": "SK Rantau Panjang",
+        "official_name": "Sekolah Kebangsaan Rantau Panjang",
+        "wikidata": "Q12706144",
+        "wikipedia": "ms:Sekolah Kebangsaan Rantau Panjang, Jalan Rawang"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1115200626,
+      "nodes": [
+        10199385735,
+        3045051422,
+        11018662454,
+        11018662455,
+        10199385736,
+        10199385737,
+        11809504802,
+        11809504801,
+        11809504803,
+        11809504804,
+        10199385735
+      ],
+      "tags": {
+        "amenity": "school",
+        "name": "SK Bestari Jaya",
+        "wikidata": "Q20462082",
+        "wikipedia": "ms:Sekolah Kebangsaan Bestari Jaya"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1161404236,
+      "nodes": [
+        10802234221,
+        10802234222,
+        4901778421,
+        10802234223,
+        10802234221
+      ],
+      "tags": {
+        "amenity": "school",
+        "name": "SJK (C) Yuk Chih 八丁燕带育智华文小学",
+        "name:en": "SJK (C) Yuk Chih",
+        "name:zh": "八丁燕带育智华小",
+        "wikidata": "Q12703707",
+        "wikipedia": "ms:Sekolah Jenis Kebangsaan (C) Yuk Chih"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1161404237,
+      "nodes": [
+        10802234224,
+        10802234225,
+        10802234226,
+        10802234227,
+        10802234228,
+        10802234229,
+        10802234224
+      ],
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "operator": "Kementerian Kesihatan Malaysia",
+        "operator:short": "KKM",
+        "operator:wikidata": "Q4294352"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1212632282,
+      "nodes": [
+        11234806428,
+        11234806429,
+        11234806430,
+        11234806431,
+        11234806428
+      ],
+      "tags": {
+        "amenity": "fire_station",
+        "name": "Balai Bomba dan Penyelamat Bestari Jaya"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1271721023,
+      "nodes": [
+        11809504835,
+        11809504836,
+        11809504837,
+        11809504838,
+        11809504839,
+        11809504840,
+        11809504835
+      ],
+      "tags": {
+        "amenity": "school",
+        "name": "SJK (T) Ladang Sungai Rambai",
+        "wikidata": "Q12703924",
+        "wikipedia": "ms:Sekolah Jenis Kebangsaan (T) Ladang Sungai Rambai"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1271721026,
+      "nodes": [
+        11809504853,
+        11809504854,
+        11809504855,
+        11809504856,
+        11809504857,
+        11809504858,
+        11809504853
+      ],
+      "tags": {
+        "addr:city": "Bestari Jaya",
+        "addr:postcode": "45600",
+        "amenity": "school",
+        "name": "SJK (T) Bestari Jaya",
+        "wikidata": "Q12703763",
+        "wikipedia": "ms:Sekolah Jenis Kebangsaan (T) Bestari Jaya"
+      }
+    },
+    {
+      "type": "way",
+      "id": 1524867453,
+      "nodes": [
+        13898663456,
+        13898663455,
+        13898663454,
+        13898663453,
+        13898663452,
+        13898663451,
+        13898663450,
+        13898663449,
+        13898663448,
+        13898663447,
+        13898663446,
+        13898663456
+      ],
+      "tags": {
+        "amenity": "school"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11809504835,
+      "lat": 3.3452836,
+      "lon": 101.3659565
+    },
+    {
+      "type": "node",
+      "id": 11809504836,
+      "lat": 3.3452828,
+      "lon": 101.3663923
+    },
+    {
+      "type": "node",
+      "id": 11809504837,
+      "lat": 3.3447301,
+      "lon": 101.3663913
+    },
+    {
+      "type": "node",
+      "id": 11809504838,
+      "lat": 3.3446691,
+      "lon": 101.3663253
+    },
+    {
+      "type": "node",
+      "id": 11809504839,
+      "lat": 3.3444446,
+      "lon": 101.366325
+    },
+    {
+      "type": "node",
+      "id": 11809504840,
+      "lat": 3.3444452,
+      "lon": 101.3659551
+    },
+    {
+      "type": "node",
+      "id": 7475497313,
+      "lat": 3.3651934,
+      "lon": 101.421596
+    },
+    {
+      "type": "node",
+      "id": 10134707980,
+      "lat": 3.3645509,
+      "lon": 101.4198501
+    },
+    {
+      "type": "node",
+      "id": 10134707981,
+      "lat": 3.3640303,
+      "lon": 101.4220213
+    },
+    {
+      "type": "node",
+      "id": 10134707982,
+      "lat": 3.3638346,
+      "lon": 101.420945
+    },
+    {
+      "type": "node",
+      "id": 10134707983,
+      "lat": 3.3637403,
+      "lon": 101.4200249
+    },
+    {
+      "type": "node",
+      "id": 4073415951,
+      "lat": 3.3833926,
+      "lon": 101.3959847
+    },
+    {
+      "type": "node",
+      "id": 4073415952,
+      "lat": 3.3836009,
+      "lon": 101.3962189
+    },
+    {
+      "type": "node",
+      "id": 4073415953,
+      "lat": 3.3843702,
+      "lon": 101.3971002
+    },
+    {
+      "type": "node",
+      "id": 4073415964,
+      "lat": 3.3815947,
+      "lon": 101.396981
+    },
+    {
+      "type": "node",
+      "id": 4073415965,
+      "lat": 3.3815692,
+      "lon": 101.3967
+    },
+    {
+      "type": "node",
+      "id": 11234806430,
+      "lat": 3.3776156,
+      "lon": 101.4031882
+    },
+    {
+      "type": "node",
+      "id": 11234806431,
+      "lat": 3.3777709,
+      "lon": 101.4027671
+    },
+    {
+      "type": "node",
+      "id": 7444749515,
+      "lat": 3.3742933,
+      "lon": 101.4094627
+    },
+    {
+      "type": "node",
+      "id": 7466198844,
+      "lat": 3.3763836,
+      "lon": 101.4062709
+    },
+    {
+      "type": "node",
+      "id": 7466198845,
+      "lat": 3.3760138,
+      "lon": 101.4077383
+    },
+    {
+      "type": "node",
+      "id": 7466198846,
+      "lat": 3.3737392,
+      "lon": 101.4072147
+    },
+    {
+      "type": "node",
+      "id": 7466198847,
+      "lat": 3.3740822,
+      "lon": 101.405784
+    },
+    {
+      "type": "node",
+      "id": 10134729140,
+      "lat": 3.3743613,
+      "lon": 101.4076504
+    },
+    {
+      "type": "node",
+      "id": 10134729141,
+      "lat": 3.3741659,
+      "lon": 101.4084576
+    },
+    {
+      "type": "node",
+      "id": 10134729142,
+      "lat": 3.3754196,
+      "lon": 101.4087721
+    },
+    {
+      "type": "node",
+      "id": 10134729143,
+      "lat": 3.3754767,
+      "lon": 101.4088491
+    },
+    {
+      "type": "node",
+      "id": 10134729144,
+      "lat": 3.375233,
+      "lon": 101.409742
+    },
+    {
+      "type": "node",
+      "id": 10134729145,
+      "lat": 3.3739793,
+      "lon": 101.4094561
+    },
+    {
+      "type": "node",
+      "id": 10134729146,
+      "lat": 3.3724007,
+      "lon": 101.4096386
+    },
+    {
+      "type": "node",
+      "id": 10134729147,
+      "lat": 3.3730089,
+      "lon": 101.407182
+    },
+    {
+      "type": "node",
+      "id": 12915974319,
+      "lat": 3.3737161,
+      "lon": 101.4062762
+    },
+    {
+      "type": "node",
+      "id": 12915974320,
+      "lat": 3.3738366,
+      "lon": 101.4058068
+    },
+    {
+      "type": "node",
+      "id": 3045051422,
+      "lat": 3.3825065,
+      "lon": 101.3996919
+    },
+    {
+      "type": "node",
+      "id": 4073415954,
+      "lat": 3.384621,
+      "lon": 101.3977048
+    },
+    {
+      "type": "node",
+      "id": 4073415959,
+      "lat": 3.3842044,
+      "lon": 101.4006086
+    },
+    {
+      "type": "node",
+      "id": 4073415960,
+      "lat": 3.3837624,
+      "lon": 101.4004638
+    },
+    {
+      "type": "node",
+      "id": 4073415961,
+      "lat": 3.3829719,
+      "lon": 101.4001062
+    },
+    {
+      "type": "node",
+      "id": 4073415962,
+      "lat": 3.3823598,
+      "lon": 101.3987181
+    },
+    {
+      "type": "node",
+      "id": 4073415963,
+      "lat": 3.382279,
+      "lon": 101.3986245
+    },
+    {
+      "type": "node",
+      "id": 10199385735,
+      "lat": 3.3822166,
+      "lon": 101.3990149
+    },
+    {
+      "type": "node",
+      "id": 10199385736,
+      "lat": 3.3803702,
+      "lon": 101.401151
+    },
+    {
+      "type": "node",
+      "id": 10199385737,
+      "lat": 3.3798917,
+      "lon": 101.4000098
+    },
+    {
+      "type": "node",
+      "id": 11018662454,
+      "lat": 3.3817262,
+      "lon": 101.400024
+    },
+    {
+      "type": "node",
+      "id": 11018662455,
+      "lat": 3.3819238,
+      "lon": 101.40049
+    },
+    {
+      "type": "node",
+      "id": 11234806428,
+      "lat": 3.3788526,
+      "lon": 101.402759
+    },
+    {
+      "type": "node",
+      "id": 11234806429,
+      "lat": 3.3786438,
+      "lon": 101.4034993
+    },
+    {
+      "type": "node",
+      "id": 11809504801,
+      "lat": 3.3813095,
+      "lon": 101.3994495
+    },
+    {
+      "type": "node",
+      "id": 11809504802,
+      "lat": 3.3811637,
+      "lon": 101.3994568
+    },
+    {
+      "type": "node",
+      "id": 11809504803,
+      "lat": 3.3817304,
+      "lon": 101.3992636
+    },
+    {
+      "type": "node",
+      "id": 11809504804,
+      "lat": 3.3819335,
+      "lon": 101.3991334
+    },
+    {
+      "type": "node",
+      "id": 11809504855,
+      "lat": 3.3789714,
+      "lon": 101.4036151
+    },
+    {
+      "type": "node",
+      "id": 11809504857,
+      "lat": 3.3802825,
+      "lon": 101.4038272
+    },
+    {
+      "type": "node",
+      "id": 4901778421,
+      "lat": 3.378561,
+      "lon": 101.4050859
+    },
+    {
+      "type": "node",
+      "id": 10802234221,
+      "lat": 3.3807601,
+      "lon": 101.4047074
+    },
+    {
+      "type": "node",
+      "id": 10802234222,
+      "lat": 3.380541,
+      "lon": 101.4056209
+    },
+    {
+      "type": "node",
+      "id": 10802234223,
+      "lat": 3.3787897,
+      "lon": 101.404153
+    },
+    {
+      "type": "node",
+      "id": 10802234224,
+      "lat": 3.3803841,
+      "lon": 101.4069519
+    },
+    {
+      "type": "node",
+      "id": 10802234225,
+      "lat": 3.3801699,
+      "lon": 101.4078379
+    },
+    {
+      "type": "node",
+      "id": 10802234226,
+      "lat": 3.3802965,
+      "lon": 101.4078686
+    },
+    {
+      "type": "node",
+      "id": 10802234227,
+      "lat": 3.3802355,
+      "lon": 101.4081209
+    },
+    {
+      "type": "node",
+      "id": 10802234228,
+      "lat": 3.3793077,
+      "lon": 101.4078959
+    },
+    {
+      "type": "node",
+      "id": 10802234229,
+      "lat": 3.3795829,
+      "lon": 101.4067575
+    },
+    {
+      "type": "node",
+      "id": 11809504853,
+      "lat": 3.3809549,
+      "lon": 101.4047196
+    },
+    {
+      "type": "node",
+      "id": 11809504854,
+      "lat": 3.3788336,
+      "lon": 101.4041471
+    },
+    {
+      "type": "node",
+      "id": 11809504856,
+      "lat": 3.3802624,
+      "lon": 101.4039114
+    },
+    {
+      "type": "node",
+      "id": 11809504858,
+      "lat": 3.3811179,
+      "lon": 101.4040108
+    },
+    {
+      "type": "node",
+      "id": 4073415955,
+      "lat": 3.3849738,
+      "lon": 101.399195
+    },
+    {
+      "type": "node",
+      "id": 4073415956,
+      "lat": 3.3850758,
+      "lon": 101.3993142
+    },
+    {
+      "type": "node",
+      "id": 4073415957,
+      "lat": 3.3851863,
+      "lon": 101.4002169
+    },
+    {
+      "type": "node",
+      "id": 4073415958,
+      "lat": 3.385165,
+      "lon": 101.4007832
+    },
+    {
+      "type": "node",
+      "id": 13898663446,
+      "lat": 3.3896984,
+      "lon": 101.4390019
+    },
+    {
+      "type": "node",
+      "id": 13898663447,
+      "lat": 3.3883221,
+      "lon": 101.4388248
+    },
+    {
+      "type": "node",
+      "id": 13898663448,
+      "lat": 3.3879151,
+      "lon": 101.4386961
+    },
+    {
+      "type": "node",
+      "id": 13898663449,
+      "lat": 3.3880329,
+      "lon": 101.4377191
+    },
+    {
+      "type": "node",
+      "id": 13898663450,
+      "lat": 3.387727,
+      "lon": 101.4376815
+    },
+    {
+      "type": "node",
+      "id": 13898663451,
+      "lat": 3.3877525,
+      "lon": 101.4374623
+    },
+    {
+      "type": "node",
+      "id": 13898663452,
+      "lat": 3.3879626,
+      "lon": 101.4374784
+    },
+    {
+      "type": "node",
+      "id": 13898663453,
+      "lat": 3.388047,
+      "lon": 101.4370056
+    },
+    {
+      "type": "node",
+      "id": 13898663454,
+      "lat": 3.3882605,
+      "lon": 101.4367998
+    },
+    {
+      "type": "node",
+      "id": 13898663455,
+      "lat": 3.3887398,
+      "lon": 101.4370975
+    },
+    {
+      "type": "node",
+      "id": 13898663456,
+      "lat": 3.3899902,
+      "lon": 101.4373174
+    },
+    {
+      "type": "node",
+      "id": 10134729175,
+      "lat": 3.3979318,
+      "lon": 101.440551
+    },
+    {
+      "type": "node",
+      "id": 5473323061,
+      "lat": 3.3984672,
+      "lon": 101.4410762
+    },
+    {
+      "type": "node",
+      "id": 10134729174,
+      "lat": 3.3999884,
+      "lon": 101.4399148
+    },
+    {
+      "type": "node",
+      "id": 10134729176,
+      "lat": 3.399021,
+      "lon": 101.4392268
+    }
+  ]
+}
