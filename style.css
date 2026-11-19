@@ -484,6 +484,20 @@ body {
 .stat-card:nth-child(4) { animation-delay: 0.4s; }
 .site-card { animation: fadeIn 0.3s ease-out backwards; }
 
+/* Disaster-response area list */
+.flood-impact-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px; margin: 14px 0; border: 1px solid var(--border); border-left: 4px solid #ff6d00; border-radius: var(--radius-md); background: var(--bg-card); }
+.fi-item { text-align: center; }
+.fi-val { display: block; font: 700 1rem var(--font-mono); color: var(--accent-amber); }
+.fi-label { display: block; margin-top: 3px; font-size: .65rem; color: var(--text-muted); }
+.fi-action { grid-column: 1 / -1; }
+.response-area-list { display: flex; flex-direction: column; gap: 7px; }
+.response-area-card { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px; text-align: left; color: var(--text-primary); background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid #ff6d00; border-radius: var(--radius-sm); cursor: pointer; }
+.response-area-card:hover { border-color: var(--accent-cyan); }
+.response-area-card span:nth-child(2) { flex: 1; }
+.response-area-card strong, .response-area-card small { display: block; }
+.response-area-card small { margin-top: 4px; color: var(--text-muted); font-size: .68rem; }
+.response-area-rank { font: 700 .75rem var(--font-mono); color: var(--accent-amber); }
+
 /* Responsive */
 @media (max-width: 900px) {
     #sidebar { width: 280px; }

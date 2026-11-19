@@ -1020,6 +1020,11 @@
             });
         });
 
+        $('btn-open-response')?.addEventListener('click', () => {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.panel === 'response'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-response'));
+        });
+
         const layerMap = {
             'lyr-population': 'population', 'lyr-telco': 'telco', 'lyr-dem': 'dem',
             'lyr-flood': 'flood', 'lyr-buildings': 'buildings', 'lyr-roads': 'roads',
@@ -1104,6 +1109,37 @@
         });
     }
 
+    function renderResponseAreas() {
+        const list = $('response-area-list');
+        if (!list) return;
+        const clusters = new Map();
+        const cellSize = 0.018;
+        STATE.floodData.forEach(point => {
+            const key = `${Math.floor(point.lat / cellSize)}_${Math.floor(point.lng / cellSize)}`;
+            const area = clusters.get(key) || { lat: 0, lng: 0, count: 0 };
+            area.lat += point.lat; area.lng += point.lng; area.count++;
+            clusters.set(key, area);
+        });
+        const areas = [...clusters.values()].map(area => {
+            area.lat /= area.count; area.lng /= area.count;
+            area.population = STATE.populationData.filter(p => distKm(area.lat, area.lng, p.lat, p.lng) <= 1)
+                .reduce((sum, p) => sum + (Number(p.pop) || 0), 0);
+            return area;
+        }).sort((a, b) => b.population - a.population).slice(0, 30);
+        if ($('fi-areas')) $('fi-areas').textContent = areas.length;
+        if ($('fi-pop')) $('fi-pop').textContent = `~${Math.round(areas.reduce((sum, a) => sum + a.population, 0)).toLocaleString()}`;
+        list.innerHTML = areas.length ? areas.map((area, i) => `
+            <button class="response-area-card" data-lat="${area.lat}" data-lng="${area.lng}">
+                <span class="response-area-rank">#${i + 1}</span><span><strong>Flood footprint cluster ${i + 1}</strong>
+                <small>${area.count} historical footprint points · ~${Math.round(area.population).toLocaleString()} residents within 1 km</small></span><span aria-hidden="true">↗</span>
+            </button>`).join('') : '<p class="panel-desc">No flood footprint data is available for this region.</p>';
+        list.querySelectorAll('.response-area-card').forEach(card => card.addEventListener('click', () => {
+            const lat = Number(card.dataset.lat), lng = Number(card.dataset.lng);
+            STATE.map.flyTo([lat, lng], 13, { duration: 0.8 });
+            L.circle([lat, lng], { radius: 1000, color: '#ff6d00', fillColor: '#ff6d00', fillOpacity: 0.12 }).addTo(STATE.map);
+        }));
+    }
+
     // ---- Boot Sequence ----
     async function boot() {
         try {
@@ -1120,6 +1156,7 @@
             updateStats();
             renderCharts();
             renderSiteCards();
+            renderResponseAreas();
             bindEvents();
             if ($('loading-screen')) $('loading-screen').classList.add('hidden');
         } catch (err) {

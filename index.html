@@ -63,6 +63,7 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
                 <span>Site Analysis</span>
             </button>
+            <button class="nav-btn" data-panel="response" id="nav-response"><span>🚑 Response Team</span></button>
             <button class="nav-btn" data-panel="about" id="nav-about">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                 <span>About</span>
@@ -97,6 +98,11 @@
                     <div class="stat-icon infra"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg></div>
                     <div class="stat-info"><span class="stat-value" id="val-infra">—</span><span class="stat-label">Critical Infrastructure</span></div>
                 </div>
+            </div>
+            <div class="flood-impact-strip" id="dash-flood-impact">
+                <div class="fi-item"><span class="fi-val" id="fi-areas">—</span><span class="fi-label">Flood-affected areas</span></div>
+                <div class="fi-item"><span class="fi-val" id="fi-pop">—</span><span class="fi-label">Residents near flood footprints</span></div>
+                <button class="btn-secondary fi-action" id="btn-open-response">🚑 Open affected-area list</button>
             </div>
             <div class="chart-section">
                 <h3 class="section-title">Regional Elevation Profile</h3>
@@ -193,6 +199,12 @@
                 <h3 class="section-title" id="site-title">Site Details</h3>
                 <div class="detail-grid" id="detail-grid"></div>
             </div>
+        </div>
+
+        <div class="panel" id="panel-response">
+            <h2 class="panel-title">Disaster-Response Areas</h2>
+            <p class="panel-desc">Historical flood footprint clusters ranked by nearby population exposure. Select an area to locate it on the map. These are hazard indicators, not live incident reports.</p>
+            <div id="response-area-list" class="response-area-list"></div>
         </div>
 
         <!-- About Panel -->
