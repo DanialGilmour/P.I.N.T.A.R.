@@ -204,6 +204,17 @@
         <div class="panel" id="panel-response">
             <h2 class="panel-title">Disaster-Response Areas</h2>
             <p class="panel-desc">Historical flood footprint clusters ranked by nearby population exposure. Select an area to locate it on the map. These are hazard indicators, not live incident reports.</p>
+            <div class="response-legend" aria-label="Hazard priority legend">
+                <span><i class="priority-dot critical"></i> Critical</span>
+                <span><i class="priority-dot high"></i> High</span>
+                <span><i class="priority-dot moderate"></i> Moderate</span>
+                <span><i class="priority-dot low"></i> Low</span>
+            </div>
+            <div class="response-report-actions">
+                <button class="btn-primary" id="btn-response-report">📄 Generate Regional Report</button>
+                <button class="btn-secondary" id="btn-response-area-report" disabled>Generate Selected Area Report</button>
+            </div>
+            <p class="response-report-note">Reports open in a print-ready view. Choose “Save as PDF” in the print dialog to export.</p>
             <div id="response-area-list" class="response-area-list"></div>
         </div>
 
@@ -243,8 +254,7 @@
         </div>
 
         <div class="sidebar-footer">
-            <span>ASEAN GeoAI Fusion 2026</span>
-            <span>HACK-MY-090</span>
+            <span>Universiti Tenaga Nasional • Final Year Project 1</span>
         </div>
     </aside>
 

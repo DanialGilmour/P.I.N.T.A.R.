@@ -22,6 +22,13 @@
             overviewTitle: 'Regional Overview (Kuala Selangor)',
             center: [3.35, 101.25],
             zoom: 11,
+            communities: [
+                { name: 'Kuala Selangor Town', lat: 3.3394, lng: 101.2502 }, { name: 'Pasir Penambang', lat: 3.3530, lng: 101.2400 },
+                { name: 'Kampung Kuantan', lat: 3.3610, lng: 101.2860 }, { name: 'Kampung Api-Api', lat: 3.4000, lng: 101.2200 },
+                { name: 'Tanjung Karang', lat: 3.4240, lng: 101.1840 }, { name: 'Sungai Burong', lat: 3.4720, lng: 101.1500 },
+                { name: 'Jeram', lat: 3.2180, lng: 101.3040 }, { name: 'Ijok', lat: 3.3030, lng: 101.4250 },
+                { name: 'Bestari Jaya', lat: 3.3830, lng: 101.4150 }, { name: 'Assam Jawa', lat: 3.3270, lng: 101.2650 }
+            ],
             latMin: 3.20, latMax: 3.65, lngMin: 101.08, lngMax: 101.55,
             defaultPop: 95359,
             defaultBldg: 31200,
@@ -43,6 +50,13 @@
             overviewTitle: 'Regional Overview (Kuala Krai, Kelantan)',
             center: [5.53, 102.20],
             zoom: 11,
+            communities: [
+                { name: 'Kuala Krai', lat: 5.5330, lng: 102.2000 }, { name: 'Guchil', lat: 5.5100, lng: 102.2100 },
+                { name: 'Batu Mengkebang', lat: 5.4100, lng: 102.2000 }, { name: 'Pahi', lat: 5.3500, lng: 102.1700 },
+                { name: 'Manek Urai', lat: 5.2600, lng: 102.1500 }, { name: 'Dabong', lat: 5.3700, lng: 102.0100 },
+                { name: 'Laloh', lat: 5.4300, lng: 102.0800 }, { name: 'Sungai Sok', lat: 5.6000, lng: 102.1600 },
+                { name: 'Chuchoh Puteri', lat: 5.6700, lng: 102.2300 }, { name: 'Kampung Bedal', lat: 5.2800, lng: 102.0400 }
+            ],
             latMin: 5.00, latMax: 6.10, lngMin: 101.70, lngMax: 102.70,
             defaultPop: 109400,
             defaultBldg: 42500,
@@ -77,7 +91,11 @@
         heatLayer: null,
         heatVisible: false,
         elevChartInstance: null,
-        riskChartInstance: null
+        riskChartInstance: null,
+        responseAreasLayer: null,
+        responseHighlight: null,
+        responseAreas: [],
+        selectedResponseArea: null
     };
 
     // ---- DOM Helpers ----
@@ -343,6 +361,7 @@
         updateStats();
         renderCharts();
         renderSiteCards();
+        renderResponseAreas();
 
         if ($('site-detail')) $('site-detail').classList.add('hidden');
 
@@ -1017,12 +1036,22 @@
                 if ($('panel-' + btn.dataset.panel)) {
                     $('panel-' + btn.dataset.panel).classList.add('active');
                 }
+                if (STATE.responseAreasLayer) {
+                    if (btn.dataset.panel === 'response') STATE.responseAreasLayer.addTo(STATE.map);
+                    else STATE.map.removeLayer(STATE.responseAreasLayer);
+                }
             });
         });
 
         $('btn-open-response')?.addEventListener('click', () => {
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.panel === 'response'));
             document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-response'));
+            STATE.responseAreasLayer?.addTo(STATE.map);
+        });
+
+        $('btn-response-report')?.addEventListener('click', () => generateResponseReport('regional'));
+        $('btn-response-area-report')?.addEventListener('click', () => {
+            if (STATE.selectedResponseArea) generateResponseReport('selected');
         });
 
         const layerMap = {
@@ -1125,19 +1154,140 @@
             area.population = STATE.populationData.filter(p => distKm(area.lat, area.lng, p.lat, p.lng) <= 1)
                 .reduce((sum, p) => sum + (Number(p.pop) || 0), 0);
             return area;
-        }).sort((a, b) => b.population - a.population).slice(0, 30);
-        if ($('fi-areas')) $('fi-areas').textContent = areas.length;
-        if ($('fi-pop')) $('fi-pop').textContent = `~${Math.round(areas.reduce((sum, a) => sum + a.population, 0)).toLocaleString()}`;
-        list.innerHTML = areas.length ? areas.map((area, i) => `
-            <button class="response-area-card" data-lat="${area.lat}" data-lng="${area.lng}">
-                <span class="response-area-rank">#${i + 1}</span><span><strong>Flood footprint cluster ${i + 1}</strong>
+        }).sort((a, b) => b.population - a.population);
+        const scoredAreas = areas.map(area => ({
+            ...area,
+            score: Math.log1p(area.population) * 12 + Math.log1p(area.count) * 18
+        })).sort((a, b) => b.score - a.score);
+        const tierFor = index => {
+            const percentile = (index + 1) / Math.max(1, scoredAreas.length);
+            if (percentile <= 0.10) return { key: 'critical', label: 'Critical', color: '#b71c1c' };
+            if (percentile <= 0.30) return { key: 'high', label: 'High', color: '#f44336' };
+            if (percentile <= 0.65) return { key: 'moderate', label: 'Moderate', color: '#ffab00' };
+            return { key: 'low', label: 'Low', color: '#00c853' };
+        };
+        scoredAreas.forEach((area, index) => { area.priority = tierFor(index); area.rank = index + 1; });
+        STATE.responseAreas = scoredAreas;
+        STATE.selectedResponseArea = null;
+        if ($('btn-response-area-report')) $('btn-response-area-report').disabled = true;
+        const displayAreas = scoredAreas.slice(0, 30);
+        if ($('fi-areas')) $('fi-areas').textContent = scoredAreas.length;
+        if ($('fi-pop')) $('fi-pop').textContent = `~${Math.round(scoredAreas.reduce((sum, a) => sum + a.population, 0)).toLocaleString()}`;
+        list.innerHTML = displayAreas.length ? displayAreas.map(area => `
+            <button class="response-area-card priority-${area.priority.key}" data-rank="${area.rank}" data-lat="${area.lat}" data-lng="${area.lng}">
+                <span class="response-area-rank">#${area.rank}</span><span><strong>Flood footprint cluster ${area.rank}</strong>
                 <small>${area.count} historical footprint points · ~${Math.round(area.population).toLocaleString()} residents within 1 km</small></span><span aria-hidden="true">↗</span>
+                <span class="priority-badge">${area.priority.label}</span>
             </button>`).join('') : '<p class="panel-desc">No flood footprint data is available for this region.</p>';
+        if (STATE.responseAreasLayer) STATE.map.removeLayer(STATE.responseAreasLayer);
+        STATE.responseAreasLayer = L.layerGroup();
+        const region = REGIONS[STATE.activeRegion];
+        scoredAreas.forEach(area => {
+            const nearbyCommunities = (region.communities || []).map(community => ({
+                ...community, distance: distKm(area.lat, area.lng, community.lat, community.lng)
+            })).filter(community => community.distance <= 15).sort((a, b) => a.distance - b.distance).slice(0, 4);
+            area.nearbyCommunities = nearbyCommunities;
+            const communityNames = nearbyCommunities.map(c => `${c.name} (${c.distance.toFixed(1)} km)`).join(', ') || 'No named locality within 15 km';
+            const tooltip = `<strong>#${area.rank} ${area.priority.label} priority</strong><br>~${Math.round(area.population).toLocaleString()} residents within 1 km<br>${area.count} historical flood points<br><b>Nearby communities:</b> ${communityNames}`;
+            L.circle([area.lat, area.lng], {
+                radius: 1100, color: area.priority.color,
+                weight: ['high', 'critical'].includes(area.priority.key) ? 2.5 : 1.5,
+                fillColor: area.priority.color, fillOpacity: 0.18, opacity: 0.8
+            }).bindTooltip(tooltip, { sticky: true, direction: 'top', className: 'hazard-tooltip' })
+              .on('click', event => {
+                  STATE.selectedResponseArea = area.rank;
+                  if ($('btn-response-area-report')) $('btn-response-area-report').disabled = false;
+                  document.querySelector('[data-rank="' + area.rank + '"]')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                  STATE.map.flyTo([area.lat, area.lng], 13, { duration: 0.8 });
+                  const communityList = nearbyCommunities.length
+                      ? `<ul>${nearbyCommunities.map(c => `<li><b>${c.name}</b> · ${c.distance.toFixed(1)} km away</li>`).join('')}</ul>`
+                      : '<p>No named community locality is available within 15 km.</p>';
+                  L.popup({ maxWidth: 300 }).setLatLng(event.latlng).setContent(
+                      `<strong>#${area.rank} ${area.priority.label} priority affected area</strong><br>Estimated nearby population: ~${Math.round(area.population).toLocaleString()}<br>Historical flood points: ${area.count}<br><b>Nearby communities</b>${communityList}`
+                  ).openOn(STATE.map);
+              }).addTo(STATE.responseAreasLayer);
+        });
+        if ($('panel-response')?.classList.contains('active')) STATE.responseAreasLayer.addTo(STATE.map);
         list.querySelectorAll('.response-area-card').forEach(card => card.addEventListener('click', () => {
             const lat = Number(card.dataset.lat), lng = Number(card.dataset.lng);
             STATE.map.flyTo([lat, lng], 13, { duration: 0.8 });
-            L.circle([lat, lng], { radius: 1000, color: '#ff6d00', fillColor: '#ff6d00', fillOpacity: 0.12 }).addTo(STATE.map);
+            if (STATE.responseHighlight) STATE.map.removeLayer(STATE.responseHighlight);
+            const area = scoredAreas.find(a => a.rank === Number(card.dataset.rank));
+            STATE.selectedResponseArea = area.rank;
+            if ($('btn-response-area-report')) $('btn-response-area-report').disabled = false;
+            STATE.responseHighlight = L.circle([lat, lng], { radius: 1100, color: area.priority.color, weight: 2.5, fillColor: area.priority.color, fillOpacity: 0.18 })
+                .bindTooltip(`<strong>#${area.rank} ${area.priority.label} priority</strong><br>~${Math.round(area.population).toLocaleString()} residents · ${area.count} historical flood points<br><b>Nearby:</b> ${area.nearbyCommunities.map(c => `${c.name} (${c.distance.toFixed(1)} km)`).join(', ') || 'No named locality within 15 km'}`, { sticky: true, className: 'hazard-tooltip' })
+                .addTo(STATE.map);
+            const communityList = area.nearbyCommunities.length
+                ? `<ul>${area.nearbyCommunities.map(c => `<li><b>${c.name}</b> · ${c.distance.toFixed(1)} km away</li>`).join('')}</ul>`
+                : '<p>No named community locality is available within 15 km.</p>';
+            L.popup({ maxWidth: 300 }).setLatLng([lat, lng]).setContent(
+                `<strong>#${area.rank} ${area.priority.label} priority affected area</strong><br>Estimated nearby population: ~${Math.round(area.population).toLocaleString()}<br>Historical flood points: ${area.count}<br><b>Nearby communities</b>${communityList}`
+            ).openOn(STATE.map);
         }));
+    }
+
+    function generateResponseReport(scope) {
+        const selected = scope === 'selected'
+            ? STATE.responseAreas.find(area => area.rank === STATE.selectedResponseArea)
+            : null;
+        if (scope === 'selected' && !selected) return;
+
+        const areas = selected ? [selected] : STATE.responseAreas.slice(0, 30);
+        const totalResidents = areas.reduce((sum, area) => sum + area.population, 0);
+        const priorityCounts = ['critical', 'high', 'moderate', 'low'].map(key => ({
+            key,
+            label: key[0].toUpperCase() + key.slice(1),
+            count: areas.filter(area => area.priority.key === key).length
+        }));
+        const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[char]));
+        const generatedAt = new Date().toLocaleString();
+        const areaRows = areas.map(area => `
+            <tr>
+                <td>${area.rank}</td>
+                <td><span class="priority ${area.priority.key}">${area.priority.label}</span></td>
+                <td>${area.nearbyCommunities.map(c => `${escape(c.name)} (${c.distance.toFixed(1)} km)`).join('<br>') || 'No named locality within 15 km'}</td>
+                <td class="number">~${Math.round(area.population).toLocaleString()}</td>
+                <td class="number">${area.count}</td>
+                <td>${area.lat.toFixed(5)}, ${area.lng.toFixed(5)}</td>
+            </tr>`).join('');
+        const areaBriefs = selected ? `
+            <h2>Area briefing</h2>
+            <p><b>Nearby population estimate:</b> ~${Math.round(selected.population).toLocaleString()} within 1 km of the flood-footprint cluster.</p>
+            <p><b>Nearby communities to review:</b> ${selected.nearbyCommunities.map(c => `${escape(c.name)} (${c.distance.toFixed(1)} km)`).join(', ') || 'No named locality within 15 km'}.</p>
+            <p><b>Map location:</b> ${selected.lat.toFixed(5)}, ${selected.lng.toFixed(5)}. <b>Historical flood points:</b> ${selected.count}.</p>` : '';
+        const reportTitle = selected ? `Affected Area ${selected.rank} Briefing` : 'Regional Flood Response Report';
+        const reportHtml = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${reportTitle}</title>
+            <style>
+                body{font:14px/1.5 Arial,sans-serif;color:#172033;margin:28px}h1{margin:0;font-size:24px}h2{margin:24px 0 8px;font-size:17px;border-bottom:2px solid #b71c1c;padding-bottom:5px}
+                .sub{color:#596579;margin:4px 0 18px}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.stat{border:1px solid #d5dbe4;border-radius:8px;padding:12px}.stat b{display:block;font-size:19px}
+                table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid #d5dbe4;padding:8px;text-align:left;vertical-align:top}th{background:#f1f4f8}.number{text-align:right;white-space:nowrap}
+                .priority{font-weight:bold}.critical{color:#b71c1c}.high{color:#f44336}.moderate{color:#a86f00}.low{color:#168544}.note{margin-top:22px;padding:12px;background:#fff7e6;border-left:4px solid #ffab00;font-size:12px}
+                @media print{body{margin:12mm}.summary{break-inside:avoid}}
+            </style></head><body>
+            <h1>${reportTitle}</h1>
+            <p class="sub">P.I.N.T.A.R. Flood-Response Team · ${escape(REGIONS[STATE.activeRegion].name)} · Generated ${escape(generatedAt)}</p>
+            <div class="summary">
+                <div class="stat"><b>${areas.length}</b>${selected ? 'Selected area' : 'Prioritised areas listed'}</div>
+                <div class="stat"><b>~${Math.round(totalResidents).toLocaleString()}</b>Sum of area population estimates</div>
+                <div class="stat"><b>${areas.reduce((sum, area) => sum + area.count, 0).toLocaleString()}</b>Historical flood points</div>
+                <div class="stat"><b>${priorityCounts.find(p => p.key === 'critical').count} / ${priorityCounts.find(p => p.key === 'high').count}</b>Critical / High priority</div>
+            </div>
+            ${selected ? areaBriefs : `<h2>Priority hierarchy</h2><p>${priorityCounts.map(p => `<span class="priority ${p.key}"><b>${p.label}:</b> ${p.count}</span>`).join(' &nbsp; · &nbsp; ')}</p>`}
+            <h2>${selected ? 'Affected area details' : 'Prioritised affected areas'}</h2>
+            <table><thead><tr><th>Rank</th><th>Priority</th><th>Nearby communities</th><th>Residents within 1 km</th><th>Flood points</th><th>Coordinates</th></tr></thead><tbody>${areaRows}</tbody></table>
+            <div class="note"><b>Data note:</b> Flood clusters are derived from the available historical Sentinel-1 footprint dataset. Population values are estimates within 1 km of each cluster; regional totals sum area estimates and may include residents counted in overlapping areas. Community names are approximate locality references within 15 km. Priority levels are relative rankings for this region. This report is not a live flood alert and should be checked against current advisories and field information before operational use.</div>
+            <script>window.addEventListener('load',()=>setTimeout(()=>window.print(),300));<\/script></body></html>`;
+        const reportWindow = window.open('', '_blank');
+        if (!reportWindow) {
+            alert('The report window was blocked. Allow pop-ups for this site, then generate the report again.');
+            return;
+        }
+        reportWindow.document.open();
+        reportWindow.document.write(reportHtml);
+        reportWindow.document.close();
     }
 
     // ---- Boot Sequence ----
