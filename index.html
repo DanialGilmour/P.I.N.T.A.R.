@@ -63,7 +63,10 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
                 <span>Site Analysis</span>
             </button>
-            <button class="nav-btn" data-panel="response" id="nav-response"><span>🚑 Response Team</span></button>
+            <button class="nav-btn" data-panel="response" id="nav-response">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>
+                <span>Report</span>
+            </button>
             <button class="nav-btn" data-panel="about" id="nav-about">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
                 <span>About</span>
@@ -223,32 +226,36 @@
             <h2 class="panel-title">About P.I.N.T.A.R.</h2>
             <div class="about-content">
                 <p><strong>Predictive Intelligence for Network Tower Allocation & Risk-assessment</strong></p>
-                <p>Developed by <strong>Team Bolehla</strong> for the ASEAN GeoAI Fusion 2026 Hackathon (HACK-MY-090).</p>
-                <p>P.I.N.T.A.R. is an enterprise GeoAI platform designed to optimize telecommunication tower allocation and climate risk mitigation across the entire Kuala Selangor district.</p>
-                <h3 class="section-title">Study Area & Coverage</h3>
-                <p>Kuala Selangor District, Selangor, Malaysia (incorporating Bestari Jaya, Tanjung Karang, Jeram, Ijok, and Kuala Selangor town centers).</p>
-                <h3 class="section-title">Regional Datasets Integrated</h3>
+                <p><strong>Final Year Project 1</strong> by Mohammad Danish Danial Bin Mohd Rosli, Bachelor of Software Engineering (Hons.), Universiti Tenaga Nasional.</p>
+                <p>P.I.N.T.A.R. is a web-based GeoAI decision-support prototype for screening and comparing candidate telecommunication tower sites and supporting flood preparedness. It brings geospatial risk, population, terrain, communication infrastructure, and accessibility information into a map-based interface.</p>
+                <h3 class="section-title">Intended Users</h3>
                 <ul class="data-list">
-                    <li><strong>WorldPop Population Grid (39,649 cells)</strong> — High-resolution demographic distribution (95,359 regional residents).</li>
-                    <li><strong>Existing Telco Network (67 Towers)</strong> — Base station towers & masts for coverage gap analysis.</li>
-                    <li><strong>Sentinel-1 SAR (2,755 points)</strong> — Active flood footprints mapping flood vulnerability.</li>
-                    <li><strong>SRTM DEM (30,584 points)</strong> — Terrain elevation & slope for line-of-sight signal propagation.</li>
-                    <li><strong>OpenStreetMap Vector Features</strong> — Building footprints, road networks & critical facilities.</li>
+                    <li><strong>Site planners and engineers</strong> — Review spatial layers, compare candidate tower locations, and consider flood risk, terrain, population demand, communication coverage, and emergency accessibility.</li>
+                    <li><strong>Disaster-response teams</strong> — Use concise reports with potentially affected areas and communities, nearby tower context, access routes, evacuation areas, and emergency facilities to support preparedness and coordination.</li>
                 </ul>
-                <h3 class="section-title">Methodology</h3>
+                <h3 class="section-title">Study Area</h3>
+                <p>The report identifies <strong>Kuala Krai, Kelantan</strong> as the primary study area. The current prototype also provides a selectable <strong>Kuala Selangor, Selangor</strong> region.</p>
+                <h3 class="section-title">Data and Assessment</h3>
                 <ul class="data-list">
-                    <li>Risk Model — Flood proximity & slope stability scoring</li>
-                    <li>Coverage Model — Spatial demand attraction & coverage gap analysis</li>
-                    <li>Multi-Objective Ranking — Pareto-optimal tower placement</li>
+                    <li><strong>Historical flood footprints</strong> — Sentinel-1 data used to show flood hazard context.</li>
+                    <li><strong>Population and settlements</strong> — WorldPop and mapped building information provide demographic and built-area context.</li>
+                    <li><strong>Terrain</strong> — SRTM elevation and slope inform preliminary site-risk review.</li>
+                    <li><strong>Infrastructure and access</strong> — Existing tower, road, and critical-facility layers help assess communication context and accessibility.</li>
+                    <li><strong>Risk and accessibility matrix</strong> — The project design combines hazard exposure, population demand, coverage, terrain, and access to support candidate-site screening and ranking.</li>
                 </ul>
-                <h3 class="section-title">Tech Stack</h3>
+                <h3 class="section-title">Prototype and Project Scope</h3>
+                <p>The current browser prototype visualises the available map layers and provides preliminary hazard-area and tower-site decision support. The report also proposes wind-risk, RF coverage, geological and land-use constraints, and machine-learning risk modelling; these are design objectives and are not all implemented in the current prototype. Results support planning and do not replace official emergency information, field surveys, or qualified engineering and regulatory decisions.</p>
+                <p>Requirements were informed by a questionnaire. The report notes that the sample was small, so its findings are preliminary.</p>
+                <h3 class="section-title">Prototype Technologies</h3>
                 <div class="tech-badges">
+                    <span class="badge">Leaflet.js</span>
+                    <span class="badge">JavaScript</span>
+                    <span class="badge">CSV & GeoJSON</span>
+                    <span class="badge">Chart.js</span>
                     <span class="badge">WorldPop</span>
                     <span class="badge">Sentinel-1 SAR</span>
                     <span class="badge">SRTM DEM</span>
-                    <span class="badge">Leaflet.js</span>
                     <span class="badge">OpenStreetMap</span>
-                    <span class="badge">Chart.js</span>
                 </div>
             </div>
         </div>
